@@ -1,22 +1,64 @@
-﻿# Вы можете расположить сценарий своей игры в этом файле.
+﻿init python:
+    from character_data import Character, CharacterState, Sprite
 
-# Определение персонажей игры.
-define e = Character('Эйлин', color="#c8ffc8")
+default character_store = { }
+default alice = Character("alice", "Алиса", "#f4a")
 
-# Вместо использования оператора image можете просто
-# складывать все ваши файлы изображений в папку images.
-# Например, сцену bg room можно вызвать файлом "bg room.png",
-# а eileen happy — "eileen happy.webp", и тогда они появятся в игре.
+label init_characters:
+    $ alice.add_state("blush", CharacterState([Sprite("alice blush", zoom=(0.6, 0.6))]))
+    $ alice.add_state("doubt", CharacterState([Sprite("alice doubt", zoom=(0.6, 0.6))]))
+    $ alice.add_state("embarrassed", CharacterState([Sprite("alice embarrassed", zoom=(0.6, 0.6))]))
+    $ alice.add_state("happy", CharacterState([Sprite("alice happy", zoom=(0.6, 0.6))]))
+    $ alice.add_state("idle", CharacterState([Sprite("alice idle", zoom=(0.6, 0.6))]))
+    $ alice.add_state("teasing", CharacterState([Sprite("alice teasing", zoom=(0.6, 0.6))]))
+    $ alice.add_state("worried", CharacterState([Sprite("alice worried", zoom=(0.6, 0.6))]))
+    return
 
-# Игра начинается здесь:
+
 label start:
+    call init_characters
 
-    scene bg room
+    scene bg city
 
-    show eileen happy
+    # !!!!! ИИ генерированный диалог !!!!!
 
-    e "Вы создали новую игру Ren'Py."
+    $ alice.set_position(500, 150)
+    $ alice.set_state("idle")
+    $ alice.say("Привет! Я Алиса, твой гид по Ren'Py.")
 
-    e "Добавьте сюжет, изображения и музыку и отправьте её в мир!"
+    $ alice.set_flipped(True)
+    $ alice.set_state("happy")
+    $ alice.say("Давай начнем наше путешествие!")
+
+    $ alice.set_state("teasing")
+    $ alice.say("Ты готов к приключениям?") 
+
+    $ alice.set_state("worried")
+    $ alice.say("Не переживай, всё будет хорошо!")
+
+    $ alice.set_flipped(False)
+    $ alice.set_state("idle")
+    $ alice.say("Если что-то пойдет не так, просто перезагрузи игру.")
+
+    $ alice.set_state("blush")
+    $ alice.say("А теперь давай посмотрим, что мы можем сделать с Ren'Py.")
+
+    $ alice.set_state("doubt")
+    $ alice.say("Ты можешь создавать свои собственные истории и делиться ими с миром.")
+
+    $ alice.set_state("embarrassed")
+    $ alice.say("Не бойся экспериментировать и пробовать что-то новое!")
+
+    $ alice.set_flipped(True)
+    $ alice.set_state("happy")
+    $ alice.say("Надеюсь, тебе понравится создавать игры с Ren'Py!")
+
+    $ alice.set_state("teasing")
+    $ alice.say("Надеюсь, ты получил удовольствие от нашего путешествия.")
+
+    $ alice.set_state("happy")
+    $ alice.say("До новых встреч!")
+    
+    $ alice.hide()
 
     return
