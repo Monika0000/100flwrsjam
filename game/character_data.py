@@ -67,27 +67,32 @@ class CharacterController:
 
     def add_state(self, name: str, state: CharacterState):
         self.states[name] = state
+        return self
 
     def set_zoom(self, zoom_x, zoom_y):
         ch = store.character_store[self.tag].copy()
         ch.zoom = (zoom_x, zoom_y)
         store.character_store[self.tag] = ch
+        return self
 
     def set_flipped(self, flipped_x=False, flipped_y=False):
         ch = store.character_store[self.tag].copy()
         ch.flipped = (flipped_x, flipped_y)
         store.character_store[self.tag] = ch
+        return self
 
     def set_position(self, x, y):
         ch = store.character_store[self.tag].copy()
         ch.position = (x, y)
         store.character_store[self.tag] = ch
+        return self
 
     def set_animation(self, animation_name, reset=True):
         ch = store.character_store[self.tag].copy()
         ch.animation = animation_name
         ch.reset_animation = reset
         store.character_store[self.tag] = ch
+        return self
 
     def set_state(self, name):
         """Показать персонажа с нужным состоянием"""

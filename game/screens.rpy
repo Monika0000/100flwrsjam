@@ -94,26 +94,60 @@ style frame:
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#say
 
-screen say(who, what):
+default persistent.pixel_voice_enabled = True
+default last_sound_time = 0.0
 
+init python:
+    import time 
+
+    renpy.music.register_channel("typewriter", mixer="sfx", loop=False, tight=True)    
+
+    def play_voice_sound(what):
+        if not persistent.pixel_voice_enabled:
+            return 
+
+        if preferences.text_cps <= 0:
+            return
+
+        global last_sound_time 
+        interval = max(1.0 / preferences.text_cps, 0.075)
+        if time.time() - last_sound_time < interval:
+            return
+
+        renpy.play("sfx/single_type.wav", channel="typewriter")
+        last_sound_time = time.time()
+
+
+screen say(who, what):
     window:
         id "window"
+        style "say_window"
 
         if who is not None:
-
             window:
                 id "namebox"
                 style "namebox"
-                text who id "who"
+                padding (5, 5, 10, 15)
+                text who id "who" color custom_text_color bold False size 45 
 
-        text what id "what"
+        #text what id "what" size 35 layout "subtitle" xmaximum 1200 xpos 400 slow_cps preferences.text_cps
+        text what id "what" size 35 
 
+        if renpy.get_displayable(screen="say",id="what").slow_done:
+            timer 0.01 repeat True action Function(play_voice_sound, what)
 
     ## Если есть боковое изображение ("голова"), показывает её поверх текста.
     ## По стандарту не показывается на варианте для мобильных устройств — мало
     ## места.
     if not renpy.variant("small"):
         add SideImage() xalign 0.0 yalign 1.0
+
+label say_custom(text, who):
+    $ last_sound_time = 0.0
+    show screen say(who, text)
+    $ renpy.pause()
+    hide screen say
+    return
 
 
 ## Делает namebox доступным для стилизации через объект Character.
@@ -300,6 +334,9 @@ screen navigation():
         if main_menu:
 
             textbutton _("Начать") action Start()
+
+            #if config.developer:
+            textbutton _("Отладка") action Start('debug')
 
         else:
 
@@ -808,6 +845,10 @@ screen preferences():
                         textbutton _("Без звука"):
                             action Preference("all mute", "toggle")
                             style "mute_all_button"
+
+                    textbutton _("Пиксель-войс"):
+                        action ToggleField(persistent, "pixel_voice_enabled")
+                        style "mute_all_button"
 
 
 style pref_label is gui_label
