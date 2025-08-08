@@ -17,6 +17,8 @@ label debug:
     $ ch_alice.set_state("worried")
     $ ch_alice.say("Не переживай,{w=0.2} {color=#f22}всё{/color} будет хорошо!")
 
+    scene bg city at glitch_shader
+
     $ ch_alice.set_flipped(False)
     $ ch_alice.set_state("idle")
     $ ch_alice.say("Если {b}{w=0.15}ч{w=0.15}т{w=0.15}о{w=0.15}{w=0.15}-{w=0.15}т{w=0.15}о{w=0.15}{/b} пойдет не так,{w=0.2} {cps=20}просто перезагрузи игру.")
@@ -24,11 +26,15 @@ label debug:
     $ ch_alice.set_state("blush")
     $ ch_alice.say("А теперь давай посмотрим,{w=0.2} что мы можем сделать с Ren'Py.")
 
+    scene bg city at blur_shader
+
     $ ch_alice.set_animation("single_bounce_animation")
     $ ch_alice.set_state("doubt")
     $ ch_alice.say("Ты можешь создавать свои собственные истории и делиться ими с миром.")
     $ ch_alice.say("А можешь даже добавить немного магии с помощью скриптов!")
 
+    scene bg city at chromatic_shader
+    
     $ ch_alice.set_state("embarrassed")
     $ ch_alice.say("Не бойся экспериментировать и пробовать что-то новое!")
 
