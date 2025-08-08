@@ -16,3 +16,6 @@ default ch_alice = (CharacterController("alice", "Алиса", "#f4a")
 )
 
 default ch_narrator = CharacterController("narrator", None)
+default ch_oth = CharacterController("voice", "Серафим", "#f60")
+default ch_death = CharacterController("death", "Смерть", "#fff")
+default ch_god = CharacterController("god", "Бог", "#fff000")
