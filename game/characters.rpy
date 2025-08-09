@@ -19,3 +19,9 @@ default ch_narrator = CharacterController("narrator", None)
 default ch_oth = CharacterController("voice", "Серафим", "#f60")
 default ch_death = CharacterController("death", "Смерть", "#fff")
 default ch_god = CharacterController("god", "Бог", "#fff000")
+
+default ch_p = CharacterController("plague", "Чума", "#b3bf4a")
+
+default ch_w = CharacterController("war", "Война", "#b33536")
+
+default ch_h = CharacterController("hunger", "Голод", "#88a6b9")
