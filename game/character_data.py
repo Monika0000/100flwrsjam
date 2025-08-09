@@ -1,8 +1,79 @@
 import renpy
 import renpy.store as store
 import math 
+import re
 
 from dataclasses import dataclass
+
+from typing import List
+
+def add_auto_waits(text: str, wait: float = 0.1) -> str:
+    punct = set('.,;:!?…')
+    # унифицируем символ многоточия
+    text = text.replace('…', '...')
+    n = len(text)
+    i = 0
+    out: List[str] = []
+
+    while i < n:
+        ch = text[i]
+        if ch in punct:
+            # 1) если мы внутри тега { ... } — не трогаем знак
+            last_open = text.rfind('{', 0, i)
+            last_close = text.rfind('}', 0, i)
+            if last_open != -1 and (last_close == -1 or last_open > last_close):
+                out.append(ch)
+                i += 1
+                continue
+
+            # 2) если это десятичная точка между двумя цифрами — не трогаем
+            if ch == '.' and i - 1 >= 0 and i + 1 < n and text[i-1].isdigit() and text[i+1].isdigit():
+                out.append(ch)
+                i += 1
+                continue
+
+            # проверяем, есть ли уже тег {w=...} после знака (пропуская пробелы/теги)
+            j = i + 1
+            has_wait_tag = False
+            while j < n:
+                c = text[j]
+                if c in ' \t\r\n':
+                    j += 1
+                    continue
+                if c == '{':
+                    close = text.find('}', j)
+                    if close == -1:
+                        break
+                    tag_content = text[j+1:close]
+                    if tag_content.strip().startswith('w=') or tag_content.strip() == 'w':
+                        has_wait_tag = True
+                        break
+                    j = close + 1
+                    continue
+                break
+
+            add_pause = False
+            if not has_wait_tag:
+                prev_is_punct = (i - 1 >= 0 and text[i-1] in punct)
+                next_is_punct = (i + 1 < n and text[i+1] in punct)
+                # если это часть последовательности знаков (например "...") — вставляем
+                if prev_is_punct or next_is_punct:
+                    add_pause = True
+                else:
+                    # иначе — вставляем паузу только если после знака есть "значимый" символ,
+                    # а не только пробелы/тэги/конец строки
+                    add_pause = (j < n)
+
+            out.append(ch)
+            if add_pause:
+                out.append(f'{{w={wait}}}')
+            i += 1
+        else:
+            out.append(ch)
+            i += 1
+
+    return ''.join(out)
+
 
 def single_bounce_animation(trans, st, at):
     duration = 0.2 
@@ -137,6 +208,8 @@ class CharacterController:
     def hide(self):
         renpy.exports.hide(self.tag)
 
-    def say(self, text):
+    def say(self, text, auto_wait=True):
+        if auto_wait:
+            text = add_auto_waits(text)
         self.character(text)
         
