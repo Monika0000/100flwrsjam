@@ -355,13 +355,66 @@ style navigation_button_text:
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#main-menu
 
-screen main_menu():
+default main_menu_parallax_smx = 0.0
+default main_menu_parallax_smy = 0.0
 
+init python:
+    def get_parallax_layer(factor):
+        global main_menu_parallax_smx, main_menu_parallax_smy
+        screen_sz = (config.screen_width, config.screen_height)
+        prescale = 1.2 if abs(factor) > 0.0 else 1.0
+        return Transform(
+            xpos = main_menu_parallax_smx * factor * 0.4 + 0.5,
+            ypos = main_menu_parallax_smy * factor * 0.1 + 0.5,
+            xanchor = 0.5,
+            yanchor = 0.5,
+            size = (screen_sz[0] * prescale, screen_sz[1] * prescale),
+        )
+
+    def update_mouse_parallax():
+        mx, my = renpy.get_mouse_pos()
+        mw = config.screen_width
+        mh = config.screen_height
+
+        px = mx / mw if mw else 0.5
+        py = my / mh if mh else 0.5
+
+        offset_x = px - 0.5
+        offset_y = py - 0.5
+
+        # Чем ближе к краю — тем медленнее
+        factor_x = 1.0 - abs(offset_x)  # от 1 в центре до 0 на краях
+        factor_y = 1.0 - abs(offset_y)
+
+        # Нелинейная затухающая функция (можно поиграться с экспонентой)
+        speed_multiplier = 0.002
+        main_menu_parallax_smx = offset_x * factor_x * speed_multiplier
+        main_menu_parallax_smy = offset_y * factor_y * speed_multiplier
+
+        # Сохраняем глобально
+        global main_menu_parallax_smx, main_menu_parallax_smy
+
+
+screen main_menu():
     ## Этот тег гарантирует, что любой другой экран с тем же тегом будет
     ## заменять этот.
     tag menu
 
-    add gui.main_menu_background
+    add "gui/parallax/background.png" nearest True at get_parallax_layer(0)
+    add "gui/parallax/1.png" nearest True at get_parallax_layer(-20)
+    add "gui/parallax/2.png" nearest True at get_parallax_layer(40)
+    add "gui/parallax/3.png" nearest True at get_parallax_layer(-60)
+    add "gui/parallax/4.png" nearest True at get_parallax_layer(-80)
+    add "gui/parallax/5.png" nearest True at get_parallax_layer(100)
+    add "gui/parallax/6.png" nearest True at get_parallax_layer(-120)
+    add "gui/parallax/7.png" nearest True at get_parallax_layer(130)
+    add "gui/parallax/8.png" nearest True at get_parallax_layer(-140)
+    add "gui/parallax/foreground.png" nearest True at get_parallax_layer(0)
+
+    #add gui.main_menu_background
+
+    # не чаще чем 0.02, иначе ломается hover у кнопок
+    timer 0.025 repeat True action [Function(update_mouse_parallax)]
 
     ## Эта пустая рамка затеняет главное меню.
     frame:
