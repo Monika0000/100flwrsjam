@@ -7,3 +7,6 @@ image alice teasing = "images/alice/teasing.png"
 image alice worried = "images/alice/worried.png"
 
 image bg city = "images/background/city.png"
+image bg office = "images/background/office.png"
+image bg darkness = "images/background/darkness.png"
+image bg god = "images/background/god.png"

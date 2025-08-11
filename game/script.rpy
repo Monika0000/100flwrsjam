@@ -20,6 +20,7 @@ label start:
     "Их власть {b}строго ограничена{/b} и подконтрольна {b}высшей{/b} воле."
     nvl clear
     stop music fadeout 1.5
+    scene bg office with fade
 
     play music "music/office.ogg" loop fadein 1.5 
     $ ch_narrator.say("{i}Утро. Для кого-то, наверное, даже доброе несмотря на нужду рано вставать и работать в офисе.{/i}")
@@ -40,13 +41,17 @@ label start:
     $ ch_narrator.say("{i}Чего-то простому люду не понять, думаю. Даже если ты, эм, то есть {b}я{/b} — как бы не человек вообще. И не без регалий, если уж смотреть на бумажки.{/i}")
     
     $ ch_oth.say("НЕ ЗАДЕРЖИВАЕМСЯ, ПОСЛЕДНИЙ РАЗ ГОВОРЮ. КАРЫ БОЖЬЕЙ ЗАХОТЕЛОСЬ?")
+
+    scene black with fade
     
     $ ch_narrator.say("{i}…Ага, а за этими дверьми сейчас меня как будто по голове гладить будут.{/i}")
     $ ch_narrator.say("{i}Ладно. Пререкаться тут вообще с кем-либо бесполезно. Киваю и, зажмурив глаза, прохожу вглубь коридора.{/i}")
     stop music fadeout 1.5
     # тут проигрывается звук громкого хлопка металлических дверей. Звуки офиса заканчиваютс
-    #Сиджи со вспышкой в конце. Луп звук шагов
-    play sound "sfx/Door.ogg" loop
+
+    scene darkness with fade
+
+    play sound "sfx/Door.ogg" 
     $ ch_narrator.say("{i}На контрасте с, эм, светящейся дверью тут наоборот — непроглядная тьма. И свет в конце туннеля.{/i}")
     $ ch_narrator.say("{i}За что боролся, на то и напоролся.{/i}")
     play sound "sfx/steps.ogg" loop
@@ -67,6 +72,7 @@ label start:
     $ ch_death.say("Отче наш, Иже еси на Небеси, да Святится Имя Твое да—")
     
     play music "music/god.ogg" loop fadein 1.5 
+    scene god with fade
     $ ch_god.say("{b}На этом можно и остановиться. С твоих уст такая формальность звучит скорее как фамильярность.{/b}")
     $ ch_god.say("{b}Простого Господь Всевышний будет достаточно.{/b}")
     
@@ -198,10 +204,12 @@ label start:
     # переход на предыдущую сцену резкий, немного тишины и только когда игрок 
     # включит реплику следующую, то включать звук офиса и бг офиса
     play sound "sfx/Door.ogg" 
+    scene black 
     $ ch_narrator.say("{i}...{/i}")
     play sound "music/office.ogg" loop fadein 1.5 
     $ ch_narrator.say("{i}Стоило моргнуть — и я обратно в холле приёмной.{/i}")
     play music "music/main.ogg" loop fadein 1.5 
+    scene office with fade
 
     $ ch_oth.say("СЛЕДУЮЩИЙ! СЛЕДУЮЩИЙ ПРОХОДИТ, НЕ ЗАДЕРЖИВАЕМСЯ!")
     
