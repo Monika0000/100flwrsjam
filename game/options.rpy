@@ -4,6 +4,14 @@
 ## раскомментировать. Строки, начинающиеся с одной '#' — комментированный код,
 ## который вы можете раскомментировать, если посчитаете это нужным.
 
+default persistent.set_volumes = False
+
+label splashscreen:
+    if not persistent.set_volumes:
+        $ persistent.set_volumes = True
+        #$ _preferences.volumes['voice'] *= .20
+        $ _preferences.volumes['music'] *= .20
+        $ _preferences.volumes['sfx'] *= .20
 
 ## Основное ####################################################################
 
@@ -62,8 +70,7 @@ define config.has_voice = True
 ## проигрываться в главном меню. Этот файл продолжит проигрываться во время
 ## игры, если не будет остановлен, или не начнёт проигрываться другой аудиофайл.
 
-# define config.main_menu_music = "main-menu-theme.ogg"
-
+define config.main_menu_music = "audio/music/main_menu.ogg"
 
 ## Переходы ####################################################################
 ##
