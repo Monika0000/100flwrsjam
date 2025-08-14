@@ -27,3 +27,6 @@
 /android.keystore
 /bundle.keystore
 /.vscode
+
+*.DS_Store
+/game/.vscode
