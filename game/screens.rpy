@@ -1414,6 +1414,9 @@ screen nvl_dialogue(dialogue):
 
                 text d.what:
                     id d.what_id
+        
+            if renpy.get_displayable(screen="nvl", id=d.what_id).slow_done:
+                timer 0.01 repeat True action Function(play_voice_sound, dialogue)
 
 
 ## Это контролирует максимальное число строк NVL, могущих показываться за раз.

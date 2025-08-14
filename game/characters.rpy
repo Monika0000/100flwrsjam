@@ -1,8 +1,20 @@
 init python:
-    from character_data import CharacterController, CharacterState, Sprite
+    from character_data import CharacterController, CharacterState, Sprite, NarratorNvl
 
 default custom_text_color = "#ffffff"
 default character_store = { }
+
+default nvl_narrator = NarratorNvl()
+default nvl_text = "empty text"
+
+define narrator = nvl_narrator # For lines without a specific speaker
+define gui.nvl_text_xpos = 675
+
+label nvl_text_label:
+    "[nvl_text]"
+    return
+
+# ======================================== ТУТ ПРОПИСЫВАЕМ ПЕРСОНАЖЕЙ ========================================
 
 default ch_alice = (CharacterController("alice", "Алиса", "#f4a")   
     .add_state("blush", CharacterState([Sprite("alice blush", zoom=(0.6, 0.6))]))
@@ -25,3 +37,5 @@ default ch_p = CharacterController("plague", "Чума", "#b3bf4a")
 default ch_w = CharacterController("war", "Война", "#b33536")
 
 default ch_h = CharacterController("hunger", "Голод", "#88a6b9")
+
+# ======================================== ТУТ ПРОПИСЫВАЕМ ПЕРСОНАЖЕЙ ========================================

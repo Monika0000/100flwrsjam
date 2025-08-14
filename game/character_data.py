@@ -213,3 +213,11 @@ class CharacterController:
             text = add_auto_waits(text)
         self.character(text)
         
+
+class NarratorNvl:
+    def say(self, text, auto_wait=True):
+        """Показать текст от лица рассказчика в NVL-режиме"""
+        if auto_wait:
+            text = add_auto_waits(text)
+        renpy.store.nvl_text = text
+        renpy.exports.call_in_new_context("nvl_text_label")
