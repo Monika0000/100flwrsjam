@@ -9,6 +9,36 @@ init python:
         renpy.redraw(trans, 20)
         return 120
 
+    renpy.register_textshader(
+        "shake",
+        variables="""
+            uniform float u__amplitude;       // сила тряски (px)
+            uniform float u__speed;           // скорость тряски
+            uniform float u_time;             // системное время
+            uniform float u_text_to_drawable; // коэффициент для масштабирования
+            attribute float a_text_index;     // индекс символа
+        """,
+
+        vertex_40="""
+            float shake_x = sin(u_time * u__speed + a_text_index * 13.0) * u__amplitude;
+            float shake_y = cos(u_time * u__speed + a_text_index * 17.0) * u__amplitude;
+            gl_Position.xy += vec2(shake_x, shake_y) * u_text_to_drawable;
+        """,
+
+        u__amplitude=2.0,   # по умолчанию сдвиг в пикселях
+        u__speed=20.0,      # скорость по умолчанию
+        redraw=0.0,
+
+        doc="""
+        The shake text shader makes each glyph jitter randomly.
+
+        `u__amplitude`
+            Pixel offset range (default 2.0).
+        `u__speed`
+            Oscillation speed (default 20.0).
+        """
+    )
+    
     renpy.register_shader("blur.shader", variables="""
         varying vec2 v_tex_coord;
         attribute vec2 a_tex_coord;

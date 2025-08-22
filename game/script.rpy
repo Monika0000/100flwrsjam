@@ -199,7 +199,8 @@ label start:
     $ ch_narrator.say("{i}Мужчины нормально работали раньше в шахтах и жили меньше, а тут удумали спрятаться по домам и мне начать портить всё… Ага, хорошо устроились. Да я—{/i}")
     
     $ ch_god.say("{b}Ежели понял, то...")
-    $ ch_god.say("{shader=wave:u__amplitude=2.0:u__frequency=8.0:u__wavelength=4.0}{b}СВОБОДЕН!!!{/b}{/shader}")
+    #$ ch_god.say("{shader=wave:u__amplitude=2.0:u__frequency=8.0:u__wavelength=4.0}{b}СВОБОДЕН!!!{/b}{/shader}")
+    $ ch_god.say("{shader=shake:u__amplitude=1.5:u__speed=50.0}{b}СВОБОДЕН!!!{/b}{/shader}")
 
     stop music fadeout 0.5
     # тут нужен саунд эффект какой-то типа ВЖЖЖжжжжж резкий прерывающийся + 
