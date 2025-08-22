@@ -6,6 +6,8 @@
 
 default persistent.set_volumes = False
 
+define config.default_textshader = "typewriter"
+
 label splashscreen:
     if not persistent.set_volumes:
         $ persistent.set_volumes = True
