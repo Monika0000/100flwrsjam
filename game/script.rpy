@@ -282,6 +282,7 @@ label start:
             $ ch_narrator.say ("{i}Ну, делать нечего, зайду сюда чуть позже. Видимо, прокрастинировать дальше теперь не получится. По крайней мере, не тут.{/i}")
             $ ch_narrator.say ("{i}Сам для себя пожимаю плечами, вот уже разворачиваюсь на пятке туфли в сторону выхода…{/i}")
 
+            $ ch_h.set_state("normal", transition=dissolve)
             $ ch_h.say ("{i}Приве-е-ет, Смерточка.{/i}")
             play music "music/Hunger.ogg" loop fadein 1.5 
 
@@ -326,7 +327,9 @@ label start:
 
             $ ch_death.say ("Эм, хех, привет! Давно, ну, не виделись, да?")
 
+            $ ch_h.set_state("laughing nervous", transition=Dissolve(0.15))
             $ ch_h.say ("{i}Совсем давно, Смертиночка, я, между прочим, заскучала.{/i}")
+            $ ch_h.set_state("laughing nervous shy", transition=Dissolve(0.5))
             $ ch_h.say ("{i}Без тебя и жизнь не с-с-сахар.{/i}")
 
             $ ch_narrator.say ("{i}Она разговаривает так тихо… По ощущениям, я думаю и того громче.{/i}")

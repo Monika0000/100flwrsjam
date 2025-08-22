@@ -133,6 +133,12 @@ class CharacterController:
         self.character = renpy.character.Character(display_name, color=color)#, what_callback=typewriter_sound_callback) # , callback=typewriter_sound_callback , voice="audio/sfx/single_type.wav" what=custom_type_writer
         self.states: dict[str, CharacterState] = {}  # имя состояния → [спрайты]
 
+        self.layer_name = f"character_{self.tag}"
+
+        if self.layer_name not in renpy.config.layers:
+            idx = renpy.config.layers.index("screens")  # перед GUI
+            renpy.config.layers.insert(idx, self.layer_name)
+
         if tag not in store.character_store:
             store.character_store[tag] = CharacterStore()
 
@@ -165,7 +171,7 @@ class CharacterController:
         store.character_store[self.tag] = ch
         return self
 
-    def set_state(self, name):
+    def set_state(self, name, transition=None):
         """Показать персонажа с нужным состоянием"""
         
         if name not in self.states:
@@ -182,7 +188,7 @@ class CharacterController:
 
             child_xzoom = -sprite.zoom[0] if sprite.flipped[0] else sprite.zoom[0]
             child_yzoom = -sprite.zoom[1] if sprite.flipped[1] else sprite.zoom[1]
-        
+
             final_xzoom = parent_xzoom * child_xzoom
             final_yzoom = parent_yzoom * child_yzoom
         
@@ -190,15 +196,25 @@ class CharacterController:
             final_x = ch_store.position[0] # TODO: + (sprite.position[0] * abs(parent_xzoom))
             final_y = ch_store.position[1] # TODO: + (sprite.position[1] * abs(parent_yzoom))
 
-            transform = renpy.store.Transform(
-                function=globals()[ch_store.animation] if ch_store.animation != None else None,
-                #function=globals()['single_bounce_animation'],
+            transform = renpy.exports.store.Transform(
+                function=globals()[ch_store.animation] if ch_store.animation is not None else None,
                 xzoom=final_xzoom,
                 yzoom=final_yzoom,
                 xpos=final_x,
                 ypos=final_y
             )
-            renpy.exports.show(sprite.name, at_list=[transform], tag=self.tag, layer=sprite.layer, zorder=sprite.z_index)
+
+            renpy.exports.show(
+                sprite.name,
+                at_list=[transform],
+                tag=self.tag,
+                layer=self.layer_name,
+                zorder=sprite.z_index
+            )
+
+        # применяем переход только к слою персонажей, не трогая окно текста
+        if transition:
+            renpy.exports.transition(transition, layer=self.layer_name)
 
         if ch_store.reset_animation:
             ch_store = ch_store.copy()
