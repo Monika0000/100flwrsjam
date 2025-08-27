@@ -4,7 +4,10 @@ init python:
 default custom_text_color = "#ffffff"
 define character_store = { }
 
-default nvl_narrator = NarratorNvl()
+default nvl_narrator = (NarratorNvl()
+    .set_active_voice_interval_multiplier(1.25)
+)
+
 default nvl_text = "empty text"
 
 define narrator = nvl_narrator # For lines without a specific speaker
@@ -29,8 +32,14 @@ define ch_alice = (CharacterController("alice", "Алиса", "#f4a")
 
 define ch_narrator = CharacterController("narrator", None)
 define ch_oth = CharacterController("voice", "", "#f60")
-define ch_death = CharacterController("death", "Смерть", "#fff")
-define ch_god = CharacterController("god", "Бог", "#fff000")
+
+define ch_death = (CharacterController("death", "Смерть", "#fff")
+    .set_active_voice_interval_multiplier(1.25)
+)
+
+define ch_god = (CharacterController("god", "Бог", "#fff000")
+    .set_active_voice_interval_multiplier(1.25)
+)
 
 define ch_p = CharacterController("plague", "Чума", "#b3bf4a")
 

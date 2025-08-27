@@ -7,7 +7,7 @@ from dataclasses import dataclass
 
 from typing import List
 
-def add_auto_waits(text: str, wait: float = 0.1) -> str:
+def add_auto_waits(text: str, wait: float = 0.25) -> str:
     punct = set('.,;:!?…')
     # унифицируем символ многоточия
     text = text.replace('…', '...')
@@ -134,6 +134,7 @@ class CharacterController:
         self.states: dict[str, CharacterState] = {}  # имя состояния → [спрайты]
 
         self.layer_name = f"character_{self.tag}"
+        self.active_voice_interval_multiplier = 1.0
 
         if self.layer_name not in renpy.config.layers:
             idx = renpy.config.layers.index("screens")  # перед GUI
@@ -144,6 +145,10 @@ class CharacterController:
 
     def add_state(self, name: str, state: CharacterState):
         self.states[name] = state
+        return self
+
+    def set_active_voice_interval_multiplier(self, multiplier):
+        self.active_voice_interval_multiplier = multiplier
         return self
 
     def set_zoom(self, zoom_x, zoom_y):
@@ -227,13 +232,24 @@ class CharacterController:
     def say(self, text, auto_wait=True):
         if auto_wait:
             text = add_auto_waits(text)
+        renpy.store.active_voice_path = f"voice/{self.tag}.wav"
+        renpy.store.active_voice_interval_multiplier = self.active_voice_interval_multiplier
         self.character(text)
         
 
 class NarratorNvl:
+    def __init__(self):
+        self.active_voice_interval_multiplier = 1.0
+
     def say(self, text, auto_wait=True):
         """Показать текст от лица рассказчика в NVL-режиме"""
         if auto_wait:
             text = add_auto_waits(text)
+        renpy.store.active_voice_path = "voice/narrator.wav"
+        renpy.store.active_voice_interval_multiplier = self.active_voice_interval_multiplier
         renpy.store.nvl_text = text
         renpy.exports.call_in_new_context("nvl_text_label")
+
+    def set_active_voice_interval_multiplier(self, multiplier):
+        self.active_voice_interval_multiplier = multiplier
+        return self
