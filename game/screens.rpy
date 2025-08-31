@@ -359,10 +359,10 @@ default main_menu_parallax_smx = 0.0
 default main_menu_parallax_smy = 0.0
 
 init python:
-    def get_parallax_layer(factor):
+    def get_parallax_layer(factor, prescale_base=1.2):
         global main_menu_parallax_smx, main_menu_parallax_smy
         screen_sz = (config.screen_width, config.screen_height)
-        prescale = 1.2 if abs(factor) > 0.0 else 1.0
+        prescale = prescale_base if abs(factor) > 0.0 else 1.0
         return Transform(
             xpos = main_menu_parallax_smx * factor * 0.4 + 0.5,
             ypos = main_menu_parallax_smy * factor * 0.1 + 0.5,
@@ -400,16 +400,13 @@ screen main_menu():
     ## заменять этот.
     tag menu
 
-    add "gui/parallax/background.png" nearest True at get_parallax_layer(0)
-    add "gui/parallax/1.png" nearest True at get_parallax_layer(-20)
-    add "gui/parallax/2.png" nearest True at get_parallax_layer(40)
-    add "gui/parallax/3.png" nearest True at get_parallax_layer(-60)
-    add "gui/parallax/4.png" nearest True at get_parallax_layer(-80)
-    add "gui/parallax/5.png" nearest True at get_parallax_layer(100)
-    add "gui/parallax/6.png" nearest True at get_parallax_layer(-120)
-    add "gui/parallax/7.png" nearest True at get_parallax_layer(130)
-    add "gui/parallax/8.png" nearest True at get_parallax_layer(-140)
-    add "gui/parallax/foreground.png" nearest True at get_parallax_layer(0)
+    add "gui/parallax/prlx_bg.png" nearest True at get_parallax_layer(0, 1.1)
+    add "gui/parallax/prlx_bg_1.png" nearest True at get_parallax_layer(-20, 1.0)
+    add "gui/parallax/prlx_bg_2.png" nearest True at get_parallax_layer(40, 1.1)
+    add "gui/parallax/prlx_mid.png" nearest True at get_parallax_layer(-60, 1.1)
+    add "gui/parallax/prlx_mid_1.png" nearest True at get_parallax_layer(80, 1.1)
+    add "gui/parallax/prlx_mid_2.png" nearest True at get_parallax_layer(-100, 1.1)
+    add "gui/parallax/prlx_fg.png" nearest True at get_parallax_layer(120, 1.1)
 
     #add gui.main_menu_background
 
