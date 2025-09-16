@@ -32,6 +32,8 @@ define ch_alice = (CharacterController("alice", "Алиса", "#f4a")
 
 define ch_narrator = CharacterController("narrator", None)
 define ch_oth = CharacterController("voice", "", "#f60")
+define ch_news = CharacterController("news", "Новости", None)
+define ch_r = CharacterController("revecca", "Ревекка", "#fff")
 
 define ch_death = (CharacterController("death", "Смерть", "#fff")
     .set_active_voice_interval_multiplier(1.25)
