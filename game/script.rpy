@@ -285,7 +285,11 @@ label start:
 
 label label_landfill:
     $ var_roots += 1
-    scene corridor with fade
+    stop music fadeout 0.5
+    stop sound fadeout 0.5
+    play sound "music/office.ogg" loop fadein 1.5 
+    play music "music/main.ogg" loop fadein 1.5
+
     $ ch_narrator.say ("{i}Мудрое решение. Без никотинчика я обратно в себя не приду.{/i}")
     $ ch_narrator.say ("{i}Задумавшись на мгновение, прохлопываю свои карманы на случай, если меня Высшие силы решили наказать за дурную привычку.{/i}")
     $ ch_narrator.say ("{i}Но нет. {b}Бог{/b} мне этого {b}не дал{/b}  — {b}Бог{/b} ничего и {b}не взял{/b} .{/i}")
@@ -379,13 +383,16 @@ label label_landfill:
     $ ch_narrator.say ("{i}Чума.{/i}")
 
     stop music fadeout 0.5
-    play sound "music/plague.ogg" loop fadein 1.5 
+    play sound "music/plague.ogg" loop fadein 1.5
+    $ ch_p.set_state("normal", transition=Dissolve(0.15)) 
     $ ch_p.say ("йоу.")
     $ ch_p.say ("чё как, челикс? чёт давно тебя не замечала тут. и вообсче где угодно на рабочем месчте.")
 
     $ ch_death.say ("Да я тут… Это…")
 
+    $ ch_p.set_state("cinema", transition=Dissolve(0.15))
     $ ch_p.say ("чилл, я ж тебе ничё не сделаю.")
+    $ ch_p.set_state("normal sig", transition=Dissolve(0.15))
     $ ch_p.say ("чикнешь зажигалочкой мне. пж?")
 
     $ ch_narrator.say ("{i}Ну, я как бы не из тех, кто умеет напрямую отказывать.{/i}")
@@ -473,7 +480,8 @@ label label_landfill:
             $ ch_narrator.say ("{i}И курит она, как мне кажется, намеренно невпопад моему темпу.{/i}")
             $ ch_narrator.say ("{i}Пока я выпускаю дым  — она впивается губами в сигарету.{/i}")
             $ ch_narrator.say ("{i}А когда я решаюсь сделать ещё одну нервную затяжку, она{/i}")
-
+            
+            $ ch_p.set_state("happysig", transition=Dissolve(0.15))
             $ ch_death.say ("Э-{w}{shader=wave:u__amplitude=2.0:u__frequency=6.0:u__wavelength=2.0}эй!{/shader}")
 
             $ ch_narrator.say ("{i}Чума выдыхает мне прямо в лицо, не забыв напоследок нагло рассмеяться.{/i}")
@@ -487,12 +495,13 @@ label label_landfill:
             $ ch_narrator.say ("{i}И, может быть, ей и хочется скрыть это за такой вот ужимкой, но я всё равно подмечаю…{/i}")
             $ ch_narrator.say ("{i}Губы. Она их начала кусать в нетерпении. Даже, пожалуй, в раздражении.{/i}")
             $ ch_narrator.say ("{i}Шок, на тишину тяжко придумывать всякие издёвки в ответ.{/i}")
-
+            $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
             $ ch_p.say ("ну так-с?")
                          
         "Предположим, что попала. Смеяться будешь? Давай, смейся.": # (2)
             $ var_plague_score += 1
             $ renpy.block_rollback()
+            $ ch_p.set_state("serioussig", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Чума крайне экспрессивно поднимает одну бровь.{/i}")
 
             $ ch_narrator.say ("{i}Я прям вижу, как она растерялась от такой честности с моей стороны.{/i}")
@@ -522,6 +531,7 @@ label label_landfill:
         "А ничё тот факт, что у тебя скоро показатели по раку падать начнут? Ну как, попал?": # (3)
             $ var_plague_score += 3
             $ renpy.block_rollback()
+            $ ch_p.set_state("cinema sig", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Лицо Чумы вытягивается. Это, кажется, удивление.{/i}")
             $ ch_narrator.say ("{i}Она прикрывает глаза и принимается медленно кивать.{/i}")
             $ ch_narrator.say ("{i}И с каждым кивком губы её всё сильнее растягиваются в улыбке.{/i}")
@@ -536,6 +546,7 @@ label label_landfill:
 
             $ ch_narrator.say ("{i}Воу. Вот это из меня бравада полезла на фоне её положительной реакции.{/i}")
 
+            $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
             $ ch_p.say ("тише-тише, у меня всё схвачено, чел. ты просто не шаришь. без спойлеров.")
             $ ch_p.say ("но, может быть, я могла бы согласиться на бартер.")
             $ ch_p.say ("если тебе под силу мне чего-нибудь предложить.")
@@ -543,6 +554,7 @@ label label_landfill:
             $ ch_narrator.say ("{i}Улыбается. Плотоядно, опасно, но совсем не ядовито.{/i}")
             $ ch_narrator.say ("{i}Или, эм, по крайней мере, {b}не совсем{/b} ядовито.{/i}")
     
+    $ ch_p.set_state("serioussig", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}Тут я набираю в лёгкие побольше воздуха.{/i}")
     $ ch_narrator.say ("{i}Тут же спешу перемешать прокисший от сожительства с мусором кислород намного более чистым табачным дымом.{/i}")
 
@@ -550,6 +562,7 @@ label label_landfill:
 
     $ ch_narrator.say ("Боссу это не нравится.")
 
+    $ ch_p.set_state("cinema sig", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}Она театрально изображает изумление, но ей настолько лень хотя бы ради шутки постараться, что выглядит это, будто Чума просто решила попробовать дышать ртом.{/i}")
     $ ch_narrator.say ("{i}Целую долгую секунду.{/i}")
 
@@ -562,6 +575,7 @@ label label_landfill:
     $ ch_narrator.say ("{i}Завидев, как моё лицо уже вот-вот искривится, Чума посмеивается и разводит руками.{/i}")
 
     $ ch_p.say ("не отвечай, я всё равно продолжу.")
+    $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
     $ ch_p.say ("ну, я слушаю твой ситуэйчшн.")
 
     $ ch_narrator.say ("{i}И никакого «извини», к слову.{/i}")
@@ -587,20 +601,21 @@ label label_landfill:
     $ ch_narrator.say ("{i}Я бы сейчас поставил эмодзи черепа.{/i}")
 
     $ ch_death.say ("...")
-
+    $ ch_p.set_state("cinema sig", transition=Dissolve(0.15))
     $ ch_p.say ("чилл.")
-
+    $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}Чума делает последнюю затяжку и кидает окурок на землю.{/i}")
+    $ ch_p.set_state("normal", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}Мыс её крокса по-садистски медленно дербанит бычок.{/i}")
     $ ch_narrator.say ("{i}Приступ эмпатии к окурку мотивирован, наверное, нашим схожим незавидным положением.{/i}")
-
+    $ ch_p.set_state("serious", transition=Dissolve(0.15))
     $ ch_p.say ("печа-а-альненько, чел.")
     $ ch_p.say ("нэ, ну я-то не причиндалы пинаю, в смысле, не всегда, конечно, этим занимаюсь.")
     $ ch_p.say ("советик отвесить могу: берёсчшь и брейн-штромисчшь.")
     $ ch_p.say ("ну типа, ты ничего не добьёшься, если не будесчшь пытаться выжать из себя по максимуму. даже если идеи кажутся странными, вот и что? потом переделаесчшь на чё-нибудь хорошее.")
     $ ch_p.say ("ничё лучше тебе не скажу. ты всё-таки в болячках не понимаешь, да и не надо.")
     $ ch_p.say ("а то есчё внезапно поумнеешь, и я на твоём месте окажусь.")
-
+    $ ch_p.set_state("normal", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}Чума ухмыляется и смотрит на меня сверху вниз.{/i}")
     $ ch_narrator.say ("{i}Я, между прочим, выше неё, просто сутулюсь.{/i}")
     $ ch_narrator.say ("{i}Ладно. Это значит, что я ниже её. Во всём.{/i}")
@@ -621,6 +636,7 @@ label label_landfill:
         "И вправду. Ну, я тогда пошёл." : # (1)
             $ var_plague_score += 1
             $ renpy.block_rollback()
+            $ ch_p.set_state("serious", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Пожимаю плечами с самым невозмутимым видом из всех, что мне под силу соорудить.{/i}")
 
             $ ch_p.say ("...")
@@ -636,7 +652,7 @@ label label_landfill:
             $ ch_narrator.say ("{i}Вот вроде прыскает как всегда, но вообще не то.{/i}")
 
             $ ch_death.say ("А чего? Пошутить нельзя.")
-
+            $ ch_p.set_state("normal", transition=Dissolve(0.15))
             $ ch_p.say ("а.")
 
             $ ch_narrator.say ("{i}Она заметно расслабляется. Осмелюсь предположить, потому что заметила, что я всё-таки до сих пор, ну, тут. И нуждаюсь в помощи. {shader=wave:u__amplitude=5.0:u__frequency=2.0:u__wavelength=20.0}Токсичненько{/shader} звучит.{/i}")
@@ -659,6 +675,7 @@ label label_landfill:
             $ ch_death.say ("Да?")
 
             $ ch_p.say ("пи{nw}")
+            $ ch_p.set_state("happy", transition=Dissolve(0.15))
             $ ch_p.say ("я имею в виду: а волсчебное слово?")
 
             $ ch_narrator.say ("{i}Здесь точно есть подвох..{/i}")
@@ -687,6 +704,7 @@ label label_landfill:
         "Ага. Самая особенная. Прямо как детишки с...": # (2)
             $ var_plague_score += 2
             $ renpy.block_rollback()
+            $ ch_p.set_state("cinema", transition=Dissolve(0.15))
             $ ch_p.say ("воу. ну. чума.")
             $ ch_p.say ("полегче. у нас тут не настолько чёрный юморок.")
 
@@ -699,7 +717,7 @@ label label_landfill:
             $ ch_narrator.say ("{i}Но что важнее сейчас: Чума, кажется, оценила моё умение пререкаться. Периодически хотя бы.{/i}")
 
             $ ch_death.say ("Ну да, ты всё-таки белая.")
-
+            $ ch_p.set_state("normal", transition=Dissolve(0.15))
             $ ch_p.say ("да всё-всё, хорош. хорош.")
 
             $ ch_narrator.say ("{i}Она неприкрыто щерится.{/i}")
@@ -718,7 +736,7 @@ label label_landfill:
             $ ch_p.say ("не хочешь выразить свои желания как-нибудь иначе?")
 
             $ ch_death.say ("...Это типа?")
-
+            $ ch_p.set_state("happy", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Едкая улыбка снова растянула её губы.{/i}")
             $ ch_narrator.say ("{i}Чума игриво намотала прядь своих волос на палец.{/i}")
             $ ch_narrator.say ("{i}Но только затем, чтобы потом этим пальцем меня слабо царапнуть.{/i}")
@@ -730,6 +748,7 @@ label label_landfill:
         "Да, я просто думаю, что ты самая компетентная и, ну, всё-таки успех с К0-В1Дом — это же прям фурор был. К кому ж ещё мне обращаться?": # (3)
             $ var_plague_score += 0
             $ renpy.block_rollback()
+            $ ch_p.set_state("serious", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Она кривит лицо.{/i}")
 
             $ ch_narrator.say ("{i}Так, словно её пытаются вытравить из этого мира концентрированным витамином С.{/i}")
@@ -755,7 +774,8 @@ label label_landfill:
             $ ch_p.say ("я эту херню за каткой в chuma.inc нахерачила.")
             $ ch_p.say ("чел. ты типа. ты реально ни черта не понимаешь, чё ли?")
             $ ch_p.say ("чё к чему? зачем так открыто пытаться нализать мне очко? типа?")
-
+            
+            $ ch_p.set_state("happy", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Она делает до противного милое лицо и давит из себя писклявый голосок:{/i}")
 
             $ ch_p.say ("{shader=wave:u__amplitude=2.0:u__frequency=9.0:u__wavelength=2.0}ти сямая компетентняя, к кому зе мне есчё обрасчасться?{/shader}")
@@ -763,7 +783,8 @@ label label_landfill:
             $ ch_narrator.say ("{i}Я так не разговариваю.{/i}")
             $ ch_narrator.say ("{i}...{/i}")
             $ ch_narrator.say ("{i}Но мы, видимо, живём в мире, где некоторым личностям прям-таки настолько неприятно слышать похвалу в свой адрес.{/i}")
-
+            
+            $ ch_p.set_state("serious", transition=Dissolve(0.15))
             $ ch_p.say ("ты такой скучный, чел. это очуметь можно.")
 
             $ ch_narrator.say ("{i}Ан нет, поправка.{/i}")
@@ -771,8 +792,11 @@ label label_landfill:
             $ ch_narrator.say ("{i}Может, дело просто в том, что Смерть хорошей быть не может.{/i}")
             $ ch_narrator.say ("{i}Или в том, что всякая зараза чувствует нужду помучать свою жертву перед тем, как её всё же умертвить.{/i}")
 
+    $ ch_p.set_state("normal", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}Она таки решает закончить свою пытку и заметно веселеет.{/i}")
+    $ ch_p.set_state("sadsig", transition=Dissolve(0.15))    
     $ ch_narrator.say ("{i}Тянется ко второй сигарете, я между делом бросаю свой окурок в положенное место — в дырку на канализационном люке — и снова делюсь с ней огоньком.{/i}")
+    $ ch_p.set_state("sadsig", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}Хоть где-то он у нас не умер. В ТикТоке он уже давно подох.{/i}")
     $ ch_narrator.say ("{i}Очевидно, что по моей вине.{/i}")
 
@@ -784,7 +808,7 @@ label label_landfill:
 
     $ ch_p.say ("хотя… чёй-то я тебе буду про всех расчехляться. про кого тебе интересно?")
     $ ch_p.say ("чесслово, без кинкшейминга.")
-
+    $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}Рука Чумы, свободная от подработки мундштуком, прячется за спину.{/i}")
     $ ch_narrator.say ("{i}Догадаться, что за её телом прямо сейчас нивелируется вышеупомянутое «честное слово», несложно.{/i}")
     $ ch_narrator.say ("{i}Но к чему подмечать это вслух? Эффекта всё равно не даст.{/i}")
@@ -793,6 +817,7 @@ label label_landfill:
     menu:
         "Ну, предположим, про стратегию Войны мне интереснее всего послушать." : # (1)
             $ renpy.block_rollback()
+            $ ch_p.set_state("cinema sig", transition=Dissolve(0.15))
             $ ch_p.say ("чума-а-а. ты по фемдому, значится?")
             $ ch_p.say ("то есть, та твоя запись про «репост, если ты любишь наггетсы или когда над тобой доминирует женщина»…")
 
@@ -803,7 +828,7 @@ label label_landfill:
             $ ch_p.say ("чат, верим?")
 
             $ ch_narrator.say ("{i}Давайте вы будете верить.{/i}")
-
+            $ ch_p.set_state("serioussig", transition=Dissolve(0.15))
             $ ch_p.say ("лан, ну, если ты совершенно-точно-не-предпочитаешь-больших-злых-женсчин, то уже должен знать, что тебе просто надо…")
             $ ch_p.say ("поменьше болтать.")
             $ ch_p.say ("как ты понимаешь, мы по этой причине немножечко с войнушкой не ладим.")
@@ -811,11 +836,13 @@ label label_landfill:
             $ ch_p.say ("тип, меньше твоей этой эмпатии потаённой  — и всё будет чики-пики, чел.")
             $ ch_p.say ("на войне, конечно, все средства хороши. но только не искренность.")
             $ ch_p.say ("печально звучит, но чё поделать.")
+            $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
             $ ch_p.say ("мне, кстати, это не всралось, потому что это просто утттттомительно.")
             $ ch_p.say ("ну эт на случай.")
                          
         "Окей, чего ты можешь сказать про Голод?": # (2)
             $ renpy.block_rollback()
+            $ ch_p.set_state("cinema sig", transition=Dissolve(0.15))
             $ ch_p.say ("чума-а-а, ну ты и, хэх, {shader=wave:u__amplitude=5.0:u__frequency=2.0:u__wavelength=20.0}ванилла{/shader}.")
             $ ch_p.say ("тебе реально заходят генки няшечки, которые будут за тобой как хвостик ходить и мечтательно вздыхать при твоём виде?")
 
@@ -824,11 +851,11 @@ label label_landfill:
             $ ch_narrator.say ("{i}{shader=wave:u__amplitude=5.0:u__frequency=2.0:u__wavelength=20.0}Чундерешно{/shader}?{/i}")
 
             $ ch_death.say ("Может, мне просто нравится, когда со мной нормально общаются?")
-
+            $ ch_p.set_state("happysig", transition=Dissolve(0.15))
             $ ch_p.say ("лол. чат, мы верим?")
 
             $ ch_narrator.say ("{i}Давайте вы будете верить.{/i}")
-
+            $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
             $ ch_p.say ("как бы то ни было, чел. это очень лёгкая темка, с такой-то добрячкой закентиться.")
             $ ch_p.say ("просто подумай башкой, с кем ты болтаешь.")
             $ ch_p.say ("и что может задеть рпп-шную чучундру.")
@@ -847,16 +874,18 @@ label label_landfill:
     
         "...Я, пожалуй, воздержусь.":               
             $ renpy.block_rollback()
+            $ ch_p.set_state("cinema sig", transition=Dissolve(0.15))
             $ ch_p.say ("чума-а-а, ты кинкшейминга испугался?")
             $ ch_p.say ("чё-то слабовато, чел.")
 
             $ ch_death.say ("{i}Да нет, мне просто… Не так и нужно.{/i}")
 
             $ ch_p.say ("вы посмотрите, он реально не казуалыч. типа.")
-
+            $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
             $ ch_p.say ("или кто-то уже всех обошёл и счастлив, а?")
 
             if var_roots == 3:
+                $ ch_p.set_state("happysig", transition=Dissolve(0.15))
                 $ ch_narrator.say ("{i}Кому-то пора перестать ломать четвёртую стену, пока шутка себя не изжила.{/i}")
 
                 $ ch_p.say ("ага, и не говори.")
@@ -865,18 +894,19 @@ label label_landfill:
 
                 $ ch_p.say ("да и я тоже заметила.")
             else:
-                #block of code to run:
                 $ ch_death.say ("Не-а.")
                 $ ch_death.say ("{i}А что, стоило к тебе только в последнюю очередь?{/i}")
 
                 $ ch_p.say ("хз.")
+                $ ch_p.set_state("cinema sig", transition=Dissolve(0.15))
                 $ ch_p.say ("мне-то чё?")
+                $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
                 $ ch_p.say ("если на тебе уже венерический букет, меня это всё равно не напугает.")
  
     $ ch_narrator.say ("{i}Окей. Эм, что делают после подобного? Благодарят?{/i}")
 
     $ ch_death.say ("{i}Э-э-э, спасибо?{/i}")
-
+    $ ch_p.set_state("happysig", transition=Dissolve(0.15))
     $ ch_p.say ("да не за что, лол.")
     $ ch_p.say ("а чё, про меня тебе неинтересно узнать?")
 
@@ -887,7 +917,7 @@ label label_landfill:
     $ ch_death.say ("{i}И чего тогда?{/i}")
 
     $ ch_narrator.say ("{i}Тут Чума криво скалится.{/i}")
-
+    $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
     $ ch_p.say ("а давай, угадай.")
     $ ch_p.say ("посмотрим, как ты чумовые механики выучил.")
     $ ch_p.say ("если совсем уж меня порадуешь, то, так и быть, замучу бартер с твоей отчаянной душоночкой.")
@@ -896,6 +926,7 @@ label label_landfill:
         "{i}Выхватить у Чумы из рук сигарету и go freaky.{/i}" : # (1)
             $ var_plague_score += 2
             $ renpy.block_rollback()
+            $ ch_p.set_state("nervous", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}...{/i}")
 
             $ ch_p.say ("...")
@@ -908,6 +939,7 @@ label label_landfill:
             $ ch_narrator.say ("{i}Меня корёжит.{/i}")
             $ ch_narrator.say ("{i}Ну не моё это  — играть какого-то самоуверенного, эм, альфача.{/i}")
             $ ch_narrator.say ("{i}Перестаю мучать бедную сигарету, уже как бы сдаюсь.{/i}")
+            $ ch_p.set_state("happy", transition=Dissolve(0.15))    
             $ ch_narrator.say ("{i}Но в этот самый момент Чума вдруг становится до боли счастливой.{/i}")
             $ ch_narrator.say ("{i}Она перехватывает своей рукой мою, задерживает тлеющую папиросу в воздухе.{/i}")
             $ ch_narrator.say ("{i}И сама проталкивает ту мне меж зубных рядов.{/i}")
@@ -924,6 +956,7 @@ label label_landfill:
 
             $ ch_narrator.say ("{i}Чума давит ладонью на мою грудную клетку, из-за чего мне приходится судорожно вдохнуть никотин.{/i}")
             $ ch_narrator.say ("{i}Видимо, только это ей и нужно было.{/i}")
+            $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Потому что сразу же после она щелкает пальцами у моего носа и возвращает своё погорелое имущество.{/i}")
             $ ch_narrator.say ("{i}Возвращает себе в рот.{/i}")
             $ ch_narrator.say ("{i}Стоять, это же типа…{/i}")
@@ -935,14 +968,15 @@ label label_landfill:
                     $ ch_p.say ("типа того.")
                 "УНО РЕВЁРС КАРД?":
                     $ ch_p.say ("типа того.")
-
+            
+            $ ch_p.set_state("happysig", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Чума мне подмигивает. Без контекста это предложение звучало бы пугающе.{/i}")
             $ ch_narrator.say ("{i}С контекстом, на самом деле, — тоже.{/i}")
 
             $ ch_p.say ("знаешь, где место мужчины, кстати?")
 
             $ ch_death.say ("{i}Ну у тебя побольше информации на этот счёт, я так понимаю.{/i}")
-
+            $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
             $ ch_p.say ("о, знаешь, значится.")
             $ ch_p.say ("тогда до вечерочка.")
 
@@ -950,13 +984,15 @@ label label_landfill:
                 $ ch_p.say ("замечательно тебе провести остаток дня.")
                 $ ch_p.say ("пока женсчина трудится, бэ. очуметь. вот за это мы и боролись, начиная с суфражисток.")
 
-            $ ch_narrator.say ("{i}Она поразительно беззлобно посмеивается напоследок и, так и не прекращая сосать табак, уходит по делам. Подозреваю, что не только своим, но и моим.{/i}")
-
             if var_plague_score < 5:
                 $ ch_p.say ("думаю, такому милашке не захочется всё-таки душу свою отдавать.")
                 $ ch_p.say ("так что: за работушку.")
                 $ ch_p.say ("чаооо.")
 
+            $ ch_p.set_state("happysig", transition=Dissolve(0.15))
+            $ ch_p.set_state("hidden", transition=Dissolve(0.15))
+            $ ch_narrator.say ("{i}Она поразительно беззлобно посмеивается напоследок и, так и не прекращая сосать табак, уходит по делам. Подозреваю, что не только своим, но и моим.{/i}")
+            
             if var_roots == 3:
                 $ ch_narrator.say ("{i}Что ж, придётся на позитивных вибрациях шагать домой…{/i}")
                 $ ch_narrator.say ("{i}Не уверен, смогу ли я после всего этого и дальше курить без посторонних мыслей.{/i}")
@@ -982,17 +1018,20 @@ label label_landfill:
                     jump label_offices
                          
         "{i}Зачем-то продолжить свои попытки пробиться через её броню и начать умолять о помощи.{i}": # (2)
+            $ renpy.block_rollback()
+            $ ch_p.set_state("sadsig", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Нет, а чего я ожидал? Это была ошибка.{/i}")
             $ ch_narrator.say ("{i}У Чумы перестаёт хватать фантазии на то, как можно на меня грозно глянуть.{/i}")
             $ ch_narrator.say ("{i}У сценаристки, пожалуй, тоже перестаёт хватать эмоционального и временного ресурса на подобное.{/i}")
             $ ch_narrator.say ("{i}Поэтому Чуме остаётся только закатить глаза. Крайне агрессивно.{/i}")
-
+            $ ch_p.set_state("serioussig", transition=Dissolve(0.15))
             $ ch_p.say ("ты закончил?")
 
             $ ch_death.say ("Нет, я, эм, я бы хотел попросить—")
 
             $ ch_p.say ("а я точно закончила.")
             $ ch_p.say ("бб лох.")
+            $ ch_p.set_state("hidden", transition=Dissolve(0.15))
 
             if var_roots == 3:
                 $ ch_narrator.say ("{i}Она удаляется.{/i}")
@@ -1021,6 +1060,7 @@ label label_landfill:
         "Нет, всё-таки надо было тогда развернуться и пойти… {i}Всё-таки развернуться и пойти. Хотя бы сейчас.{/i}": # (3)
             $ var_plague_score += 1
             $ renpy.block_rollback()
+            $ ch_p.set_state("serioussig", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}В этот раз я уже без притворств собираюсь уходить.{/i}")
             $ ch_narrator.say ("{i}Я думаю, после всего произошедшего, у меня есть право. А у неё есть право, ну, погоняться за мной.{/i}")
             $ ch_narrator.say ("{i}Если ей так угодно. При условии, что это её так уж забавляет.{/i}")
@@ -1033,6 +1073,7 @@ label label_landfill:
 
                 $ ch_p.say ("ладно, сынок. ты победил.")
                 $ ch_p.say ("это не очень фанни, я тебе так, конечно, скажу.")
+                $ ch_p.set_state("happysig", transition=Dissolve(0.15))
                 $ ch_p.say ("но на массовый геноцид с моей стороны потянет.")
 
                 $ ch_narrator.say ("{i}Чума мне подмигивает. Без контекста это предложение звучало бы пугающе.{/i}")
@@ -1041,21 +1082,16 @@ label label_landfill:
                 $ ch_p.say ("знаешь, где место мужчины, кстати?")
 
                 $ ch_death.say ("{i}Ну у тебя побольше информации на этот счёт, я так понимаю.{/i}")
-
+                $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
                 $ ch_p.say ("о, знаешь, значится.")
                 $ ch_p.say ("тогда до вечерочка.")
                 $ ch_p.say ("замечательно тебе провести остаток дня.")
                 $ ch_p.say ("пока женсчина трудится, бэ. очуметь. вот за это мы и боролись, начиная с суфражисток.")
-
+                $ ch_p.set_state("hidden", transition=Dissolve(0.15))
                 $ ch_narrator.say ("{i}Она поразительно беззлобно посмеивается напоследок и, так и не прекращая сосать табак, уходит по делам. Подозреваю, что не только своим, но и моим.{/i}")
 
-            if var_roots == 3:
-                $ ch_narrator.say ("{i}Что ж, тогда… Я отправлюсь исключительно по своим делам.{/i}")
-                $ ch_narrator.say ("{i}По её мнению, видимо, на кухню или мэном кладов, как в том меме...{/i}")
-                $ ch_narrator.say ("{i}Хотя я пока предпочту остаться просто иждивенцем. Думаю, это лучше всего подходит. И мне, и… всем. Всем нам.{/i}")
-                jump ending
-
             if var_plague_score < 5:
+                $ ch_p.set_state("sadsig", transition=Dissolve(0.15))  
                 $ ch_narrator.say ("{i}Она.. просто стоит на месте.{/i}")
                 $ ch_narrator.say ("{i}Как будто ей без разницы.{/i}")
                 $ ch_narrator.say ("{i}Мне аж захотелось как-то погромче объявить о том, что я отчаливаю.{/i}")
@@ -1064,6 +1100,14 @@ label label_landfill:
                 $ ch_narrator.say ("{i}При других обстоятельствах это высказывание звучало бы воодушевляюще.{/i}")
                 $ ch_narrator.say ("{i}Но в моей ситуации это, кажется, означает проигрыш.{/i}")
 
+            if var_roots == 3:
+                $ ch_p.set_state("hidden", transition=Dissolve(0.15))
+                $ ch_narrator.say ("{i}Что ж, тогда… Я отправлюсь исключительно по своим делам.{/i}")
+                $ ch_narrator.say ("{i}По её мнению, видимо, на кухню или мэном кладов, как в том меме...{/i}")
+                $ ch_narrator.say ("{i}Хотя я пока предпочту остаться просто иждивенцем. Думаю, это лучше всего подходит. И мне, и… всем. Всем нам.{/i}")
+                jump ending
+            
+            $ ch_p.set_state("hidden", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Окей, я безнадёжен. Ну. За чёрной полосой, ну, по идее должна следовать белая?{/i}")
             $ ch_narrator.say ("{i}После этой фразы обычно чёрная полоса становится чёрной дырой. Огроменной.{/i}")
             $ ch_narrator.say ("{i}Но я не из робкого десятка.{/i}")
@@ -1094,6 +1138,10 @@ label label_landfill:
 label label_offices:
     $ var_roots += 1
     scene corridor with fade
+    stop music fadeout 0.5
+    stop sound fadeout 0.5
+    play sound "music/office.ogg" loop fadein 1.5 
+    play music "music/main.ogg" loop fadein 1.5
     $ ch_narrator.say ("{i}Отлично, сбежать от работы не получилось, значит, пора идти в породнившийся офисный лабиринт.{/i}")
     $ ch_narrator.say ("{i}Не сказать, что у нас оформление рабочего пространства какое-то не такое, вполне удобоваримо.{/i}")
     $ ch_narrator.say ("{i}Да и самих помещений не так много, это типа не офис компании Яблоко. Бедные работники на {s}цокольном{/s} адском этаже, там вот реально запутаться можно.{/i}")
@@ -1136,7 +1184,7 @@ label label_offices:
     $ ch_narrator.say ("{i}Думаю я и стою неподвижно, затаив дыхание, — прислушиваюсь к тому, что же по ту сторону находится. Или кто.{/i}")
     $ ch_narrator.say ("{i}Точнее говоря, лучше, чтобы никто.{/i}")
 
-    $ ch_oth.say ("{size=+15}Кто там?")
+    $ ch_w.say ("{size=+15}Кто там?")
 
     $ ch_narrator.say ("{i}Не никто.{/i}")
     $ ch_narrator.say ("{i}Ужасно, я себя школьником каким-то ощущаю, когда надо зайти в кабинет директора или кого подобного.{/i}")
@@ -1156,19 +1204,21 @@ label label_offices:
     stop music fadeout 0.5
     $ ch_narrator.say ("{i}За секунду до того, как мозг успевает среагировать на повышенный уровень угрозы, я оказываюсь по ту сторону порога и вижу её.{/i}")
 
-    play music "music/war.ogg" loop fadein 1.5 
+    play music "music/war.ogg" loop fadein 1.5
+    $ ch_w.set_state("back", transition=Dissolve(0.15)) 
     $ ch_narrator.say ("{i}Войну.{/i}")
     $ ch_narrator.say ("{i}Уже вся в делах, так ещё и сразу с документацией какой-то. Кажется, она с головой в работе и пока что меня не видит.{/i}")
     # вот тут хз сиджи или просто спрайт вставить, нужно посмотреть по занятости марго,, может ли она нарисовать, как война сидит за столом своим офисным и бумаги подписывает.
     $ ch_narrator.say ("{i}Может, пока не поздно убежать с поля боя как испуганный крысёныш или там белый флаг поднять. Мало ли, кто мог стучаться.{/i}")
 
+    $ ch_w.set_state("stare", transition=Dissolve(0.15))
     $ ch_w.say ("{b}А, ЭТО ТЫ ПРИШЁЛ.{/b}")
 
     $ ch_narrator.say ("{i}Она меня {b}тоже{/b} видит. Туше.{/i}")
     $ ch_narrator.say ("{i}Но, судя по всему, и вправду крайне занятая, раз вполголоса себе под нос говорит.{/i}")
 
     $ ch_death.say ("Ааа…Доброе утро. Можно…? В смысле, не отвлекаю?")
-
+    $ ch_w.set_state("headsup", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}После первой же фразы она поднимает на меня взгляд, по которому легко понять, что утро ничуть не доброе.{/i}")
     $ ch_narrator.say ("{i}Ну, как бы can relate, что называется, но…{/i}")
 
@@ -1200,15 +1250,15 @@ label label_offices:
     $ ch_narrator.say ("{i}Особенно учитывая то, что взгляд у неё сейчас на меня реально убийственный.{/i}")
 
     $ ch_death.say ("Всё же отвлекаю, да..?")
-
+    scene bg waroff with vpunch
     $ ch_narrator.say ("{i}Не отрывая от меня глаз, она одним чётким движением опускает все бумаги сразу на стол.{/i}")
-
+    $ ch_w.set_state("normal", transition=Dissolve(0.15))
     $ ch_w.say ("{b}{size=+15}ОТВЛЕКАЕШЬ.{/b}")
 
     $ ch_narrator.say ("{i}Вот теперь она заговорила нормально.{/i}")
     $ ch_narrator.say ("{i}Нормально это, эм, {size=+15}{b}ГРОМКО{/b} сказано.{/i}")
     $ ch_narrator.say ("{i}Ну, говорит обычно. Обыденно. По-обычному. Так будет корректнее, что ли, выразиться.{/i}")
-
+    $ ch_w.set_state("headsup", transition=Dissolve(0.15))
     $ ch_w.say ("{size=+15}{b}НО ГОВОРИ. ТЫ ПРОСТО ТАК НЕ ПРИХОДИШЬ, КАК И ПОДОБАЕТСЯ СМЕРТИ.{/b}")
 
     $ ch_narrator.say ("{i}Классно, это, кажется, был комплимент. Самое время ковать железо.{/i}")
@@ -1222,11 +1272,11 @@ label label_offices:
             $ ch_narrator.say ("{i}Начинаю сверлить взглядом пол. Уже подольше.{/i}")
             $ ch_narrator.say ("{i}Молчу.{/i}")
             $ ch_narrator.say ("{i}Война тоже молчит, но отчего-то я уверен, что точно не отводит взгляд.{/i}")
-
+            $ ch_w.set_state("normal", transition=Dissolve(0.15))
             $ ch_w.say ("{b}{size=+15}ЭТО ВСЁ?{/b}")
 
             $ ch_death.say ("Э, эм, нет, ну… Это так, для начала.")
-
+            $ ch_w.set_state("headsup", transition=Dissolve(0.15))
             $ ch_w.say ("{b}{size=+15}ТАК НАЧИНАЙ СРАЗУ НОРМАЛЬНО.{/b}")
 
             $ ch_w.say ("{b}{size=+15}МИР ГОРИТ. У МЕНЯ НИЧЕГО НЕ ГОРИТ. ВСЁ ПРЕКРАСНО.{/b}")
@@ -1237,36 +1287,37 @@ label label_offices:
             $ renpy.block_rollback()
             
             $ ch_narrator.say ("{i}И вот, только я даю своим эмоциям волю, а ногам — приказ подкоситься…{/i}")
-
+            $ ch_w.set_state("point", transition=Dissolve(0.15))
             $ ch_w.say ("{b}{size=+15}ОТСТАВИТЬ НЫТЬЁ.{/b}")
             $ ch_w.say ("{b}{size=+15}ГОВОРИ НОРМАЛЬНО. ИЛИ ВЫЛЕТИШЬ ОТСЮДА.{/b}")
             $ ch_w.say ("{b}{size=+15}СО СВИСТОМ.{/b}")
 
             $ ch_narrator.say ("{i}Она громко {b}ПРОСВИСТЕЛА{/b} себе под нос, как обычно делают какие-нибудь игроки в гольф, когда видят, как удачно они вмазали по мячу.{/i}")
             $ ch_narrator.say ("{i}Визуализация приятнейшая, конечно. Хит.{/i}")
-
+            $ ch_w.set_state("point angry", transition=Dissolve(0.15))
             $ ch_w.say ("{shader=wave:u__amplitude=2.0:u__frequency=8.0:u__wavelength=4.0}{b}{size=+20}И БЕЗ СЛЁЗ.{/b}{/shader} НЕ УСПЕЕШЬ ЗАРЕВЕТЬ ДАЖЕ, СНЕЖОК.")
-
+            $ ch_w.set_state("stare", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}...{/i}")
             $ ch_narrator.say ("{i}Во-первых, {b}кто{/b}?{/i}")
             $ ch_narrator.say ("{i}Во-вторых, похоже, искренне бояться тут запрещено.{/i}")
 
             $ ch_death.say ("Прошу прощения, я, эм, в общем…")
-
+            $ ch_w.set_state("point angry", transition=Dissolve(0.15))
             $ ch_w.say ("{b}{size=+15}Я Ж СКАЗАЛА {shader=wave:u__amplitude=2.0:u__frequency=8.0:u__wavelength=4.0}{b}НЕ НЫТЬ.{/b}{/shader}")
 
             $ ch_narrator.say ("{i}Но я же… Я просто так разговариваю…{/i}")
 
         
         "Как я заметил, дела у тебя идут в гору, хотелось узнать, как у коллеги, твои стратегии продвижения. ": #ВЫБОР +2
+            $ renpy.block_rollback()
             $ var_war_score += 2
             $ renpy.block_rollback()
-
+            $ ch_w.set_state("stare", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}О, это её, вроде, порадовало.{/i}")
             $ ch_narrator.say ("{i}В плане, ничего на её лице об этом не свидетельствует.{/i}")
             $ ch_narrator.say ("{i}Мне просто вдруг стало легче дышать. Как будто воздух перестал быть накалённым до предела.{/i}")
             $ ch_narrator.say ("{i}Это, видимо, то, что сейчас принято называть {b}аурой{/b}. А по факту — вся мощь Войны. Устрашение. Жар. Невозможность сделать вдох полной грудью. {alpha=*0.5}Плоской — тоже.{/alpha}{/i}")
-
+            $ ch_w.set_state("normal", transition=Dissolve(0.15))
             $ ch_w.say ("{b}{size=+15}БЕЗ ПОДХАЛИМСТВА.{/b}")
 
             $ ch_narrator.say ("{i}Ага, верим.{/i}")
@@ -1276,13 +1327,15 @@ label label_offices:
             $ ch_w.say ("{b}{size=+15}БРЕД НЕСЁШЬ, МАЛОЙ. КАКИЕ ТЕБЕ СТРАТЕГИИ, ТЫ Ж НИ ЧЕРТА НЕ ПОЙМЁШЬ.{/b}")
 
             $ ch_w.say ("{b}НА ВОЙНЕ НЕТ ГОР. У МЕНЯ НЕТ ДЕЛ НА ГОРЕ. У МЕНЯ ЕСТЬ ДЕЛА В ОКОПЕ. В ЭТОМ И УСПЕХ. ВСЕ В ОКОПЕ. КТО НЕ В ОКОПЕ — ТОТ В ЖОПЕ.{/b}")
+            $ ch_w.set_state("point", transition=Dissolve(0.15))
             $ ch_w.say ("{b}{size=+15}ОКОП —  ЯМА ТАКАЯ, ЕСЛИ ЧТО.{/b}")
 
             $ ch_narrator.say ("{i}То есть, что такое «жопа» она предположила, что я знаю. Мило.{/i}")
 
             $ ch_death.say ("Э-это… «В гору» — выражение такое, фразеологизм.")
-
+            $ ch_w.set_state("point angry", transition=Dissolve(0.15))
             $ ch_w.say ("{b}{size=+15}ОТСТАВИТЬ ФРАЗЕОЛОГИЗМЫ.{/b}")
+            $ ch_w.set_state("normal", transition=Dissolve(0.15))
             $ ch_w.say ("{b}{size=+15}БОЛЯЧКИ НОВОМОДНЫЕ С ЧУМОЙ ОБСУЖДАТЬ БУДЕШЬ. ЧЕГО СКАЗАТЬ ХОТЕЛ?{/b}")
             $ ch_w.say ("{b}{size=+15}ТАК И БЫТЬ, ПОПРОЩЕ ОБЪЯСНЮ, РАЗ ТЫ НИ-ХЕ-РА НЕ СМЫСЛИШЬ.{/b}")
     
@@ -1290,11 +1343,11 @@ label label_offices:
     $ ch_narrator.say ("{i}Прочищаю горло. Вернее, оно само норовит себя прочистить. Только бы немного дать мне (моей пустой черепной коробке) времени пораскинуть мозгами (их отсутствием).{/i}")
 
     $ ch_death.say ("Эм, ну, тут… В общем, дело в том, что меня самую малость хотят уволить.")
-
+    $ ch_w.set_state("normal", transition=Dissolve(0.15))
     $ ch_w.say ("{b}{size=+15}ТОЛЬКО САМУЮ МАЛОСТЬ?{/b}")
 
     $ ch_death.say ("Просто хотят уволить.")
-
+    $ ch_w.set_state("stare", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}На это она коротко кивает.{/i}")
     $ ch_narrator.say ("{i}Либо просто приняла к сведению, либо одобрила мой приговор.{/i}")
     $ ch_narrator.say ("{i}{b}Это{/b} я уточнять не буду.{/i}")
@@ -1310,7 +1363,8 @@ label label_offices:
     $ ch_narrator.say ("{i}...{/i}")
     $ ch_narrator.say ("{i}Я уже под её манеру речи подстраиваюсь. Класс.{/i}")
     $ ch_narrator.say ("{i}Вот теперь-то моя личность начинает стираться.{/i}")
-
+    $ ch_w.set_state("normal", transition=Dissolve(0.15))
+    scene bg waroff with vpunch
     $ ch_w.say ("{b}{size=+15}ПОМОЩЬ КАКАЯ?{/b}")
     $ ch_w.say ("{b}{size=+15}УВОЛИТЬ ТЕБЯ? МОГУ ТОЛЬКО УБИТЬ.{/b}")
 
@@ -1319,16 +1373,18 @@ label label_offices:
     
     $ ch_death.say ("Наоборот, помочь не уволить.")
     $ ch_death.say ("И помочь не убить.")
-
+    $ ch_w.set_state("stare", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}Выглядит она сконфуженной.{/i}")
     $ ch_narrator.say ("{i}Видимо, помогать чем-то, что не задействует причинение вреда, — это инородный для Войны концепт.{/i}")
-
+    $ ch_w.set_state("normal", transition=Dissolve(0.15))
     $ ch_w.say ("{b}{size=+15}ЗАЧЕМ?{/b}")
+    $ ch_w.set_state("point", transition=Dissolve(0.15))
     $ ch_w.say ("{b}{size=+15}КТО СЛАБЫЙ, ТОТ ДОЛЖЕН УМЕРЕТЬ.{/b}")
+    $ ch_w.set_state("point angry", transition=Dissolve(0.15))
     $ ch_w.say ("{b}{size=+15}ПОМОГАТЬ СЛАБОМУ, ЧТОБЫ ОН ПОТОМ УМЕР? БЕСПОЛЕЗНО. ПУСТАЯ ТРАТА ДЕНЕГ.")
-    $ ch_w.say ("{b}{size=+15}{w} ВРЕМЕНИ. {w} СИЛ. {w} РЕСУРСОВ. {w} ВОЙНЫ.{w}{/b}")
+    $ ch_w.say ("{b}{size=+15}ВРЕМЕНИ. {w} СИЛ. {w} РЕСУРСОВ. {w} ВОЙНЫ.{/b}")
 
-
+    $ ch_w.set_state("headsup", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}Она замолчала.{/i}")
     $ ch_narrator.say ("{i}Я пытаюсь подсмотреть под её кепи, уловить хоть что-то в глазах.{/i}")
     $ ch_narrator.say ("{i}А там удивительно пусто.{/i}")
@@ -1342,32 +1398,35 @@ label label_offices:
 
     $ ch_narrator.say ("{i}Так, ну. Теперь я хотя бы могу уловить её взгляд.{/i}")
     $ ch_narrator.say ("{i}Не сказал бы, что это прямо приятно. Но угрозу теперь хотя бы можно оценить.{/i}")
-
+    $ ch_w.set_state("normal", transition=Dissolve(0.15))
     $ ch_w.say ("{b}{size=+15}СОМНЕВАЮСЬ.{/b}")
 
     $ ch_narrator.say ("{i}Славно.{/i}")
-
+    $ ch_w.set_state("point", transition=Dissolve(0.15))
+    scene bg waroff with vpunch
     $ ch_w.say ("{b}{size=+15}КТО НА ВОЙНУ СО СЛОВАМИ ПРИХОДИТ, САЛАГА? ТРУСЫ.{/b}")
     $ ch_w.say ("{b}{size=+15}ХОРОШАЯ ВОЙНА НЕ НУЖДАЕТСЯ В БЛА-БЛА. НУЖНО ДЕЙСТВОВАТЬ. РАБОТАТЬ.{/b}")
     $ ch_w.say ("{b}{size=+15}ТЫ — ИЛИ ТЕБЯ, МЕЛКИЙ.{/b}")
+    $ ch_w.set_state("normal", transition=Dissolve(0.15))
     $ ch_w.say ("{b}{size=+15}ВОЙНА НЕ РЕШАЕТСЯ РАЗГОВОРЧИКАМИ. И НЕ НАЧИНАЕТСЯ РАЗГОВОРЧИКАМИ.{/b}")
     $ ch_w.say ("{b}{size=+20}...{/b}")
 
     $ ch_narrator.say ("{i}В мою сторону щурятся.{/i}")
-
+    $ ch_w.set_state("headsup", transition=Dissolve(0.15))
     $ ch_w.say ("{b}{size=+15}ТЫ УЖЕ РАБОТАЕШЬ?{/b}")
 
     $ ch_narrator.say ("{i}Пу-пу-пу…{/i}")
     $ ch_narrator.say ("{i}Ну, пора выбирать стратегию.{/i}")
     menu:
         "...Эм, а чего за идея-фикс на том, что нужно постоянно на кого-то нападать? Это вся твоя работа? Без планирования?":
+            $ renpy.block_rollback()
             $ var_war_score += 0
             $ ch_narrator.say ("{i}Нет, реально.{/i}")
             $ ch_narrator.say ("{i}Пусть думает, что я пошёл в атаку.{/i}")
             $ ch_narrator.say ("{i}Но мне просто действительно стало интересно проникнуться её, эм, философией. Может быть, я просто недостаточно просветлённый.{/i}")
             $ ch_narrator.say ("{i}{alpha=*0.5}Скорее слишком не затемнённый.{/alpha}{/i}")
             $ ch_narrator.say ("{i}Для лучшего эффекта скрещиваю руки на груди. Выходит эдакая мимикрия.{/i}")
-
+            $ ch_w.set_state("stare", transition=Dissolve(0.15))
             $ ch_w.say ("{b}{size=+15}...{/b}")
             $ ch_w.say ("{b}{size=+20}...{/b}")
             $ ch_w.say ("{shader=wave:u__amplitude=2.0:u__frequency=8.0:u__wavelength=4.0}{b}{size=+20}...{/b}{/shader}")
@@ -1379,8 +1438,10 @@ label label_offices:
 
             $ ch_w.say ("{b}{size=+15}ЭТО КРОВЬ.{/b}")
 
+            scene bg waroff with vpunch
             $ ch_narrator.say ("{i}После этих слов она до того сильно топает ногой, что я, ну…{/i}")
             $ ch_narrator.say ("{i}Вылетаю из её кабинета сквозь весь коридор. В самое начало.{/i}")
+            $ ch_w.set_state("hidden", transition=Dissolve(0.15))
 
             scene corridor with fade
             $ ch_narrator.say ("{i}Ну. Видимо, не сегодня. Никогда.{/i}")
@@ -1410,7 +1471,9 @@ label label_offices:
 
 
         "ДА ДЕЛАЮ Я ДЕЛА. Просто чуть-чуть неудачно. Я ещё оклемаюсь, с колен встану. Просто надо помочь. Ты. Я. Мне помочь?": # (2)
+            $ renpy.block_rollback()
             $ var_war_score += 1
+            $ ch_w.set_state("headsup", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Она хмыкает. Звучит неудовлетворённо, что ли.{/i}")
 
             $ ch_w.say ("{b}{size=+15}ТЫ НЕ НА КОЛЕНЯХ.{/b}")
@@ -1424,20 +1487,26 @@ label label_offices:
             $ ch_narrator.say ("{i}Может быть, в этом и проблема.{/i}")
 
             $ ch_death.say ("Да так…")
-
+            $ ch_w.set_state("point", transition=Dissolve(0.15))
             $ ch_w.say ("{b}{size=+15}ОТСТАВИТЬ ОТГОВОРКИ.{/b}")
             $ ch_w.say ("{b}{size=+15}ТАК И БЫТЬ, Я ПОМОЧЬ. ТЫ СЛИШКОМ МНОГО ДУМАЕШЬ.{/b}")
             $ ch_w.say ("{b}{size=+15}ИЗВЕСТНЫЙ ПОРОК РЯДОВЫХ. {/b}")
             $ ch_w.say ("{b}{size=+15}ПЛАН РАЗРАБАТЫВАТЬ —  ЭТО НЕ ДЛЯ ВАС.{/b}")
+            $ ch_w.set_state("normal", transition=Dissolve(0.15))
             $ ch_w.say ("{b}{size=+15}ПУШЕЧНОЕ МЯСО ДОЛЖНО ИДТИ В ДЕЛО.{/b}")
 
             $ ch_narrator.say ("{i}Война призадумалась.{/i}")
-
+            $ ch_w.set_state("point", transition=Dissolve(0.15))
             $ ch_w.say ("{b}МЯСА В ТЕБЕ НЕТ…{/b}")
+            $ ch_w.set_state("headsup", transition=Dissolve(0.15))
             $ ch_w.say ("{b}{size=+15}НО В ДЕЛО ПОЙДЁШЬ. БЕЗ РАЗГОВОРЧИКОВ.{/b}")
 
         "{i}Ударить кулаком по первой попавшейся поверхности.{/i} Работаю. Нуждаюсь в подкреплении для лучшего результата.": # (3)
+            $ renpy.block_rollback()
             $ var_war_score += 2
+            scene bg waroff with vpunch
+            $ ch_w.set_state("stare", transition=Dissolve(0.15))
+
             $ ch_narrator.say ("{i}Мне требуется несколько долгих секунд, чтобы прийти в себя после такого кринжа.{/i}")
             $ ch_narrator.say ("{i}Затем титанических усилий стоит выдерживать эту напускную брутальность в своём изначальном состоянии.{/i}")
             $ ch_narrator.say ("{i}Мне вдруг подумалось: а как я выгляжу сейчас со стороны?{/i}")
@@ -1446,7 +1515,8 @@ label label_offices:
 
             $ ch_w.say ("{b}{size=+15}...{/b}")
             $ ch_w.say ("{b}{size=+15}ТЫ...{/b}")
-            #СПРАЙТ ГДЕ ОНА ТЫЧЕТ ПАЛЬЦЕМ
+            $ ch_w.set_state("point", transition=Dissolve(0.15))
+            scene bg waroff with vpunch
             $ ch_w.say ("{b}{size=+15}СРАЗУ БЫ ТАК.{/b}")
             $ ch_w.say ("{b}{size=+15}ТОЛЬКО ГРОМЧЕ НАДО. А ТО НА МЕНЯ НЕДОСТАТОЧНО ПОХОЖ.{/b}")
 
@@ -1455,6 +1525,8 @@ label label_offices:
             $ ch_narrator.say ("{i}Но Война, видимо, жаждет, чтобы все вокруг ей уподоблялись, ежели не хотят стать следующей целью для атаки.{/i}")
 
             $ ch_death.say ("{shader=wave:u__amplitude=2.0:u__frequency=9.0:u__wavelength=2.0}ХОРО{/shader}, кхм, ХОРОШО.")
+            
+            $ ch_w.set_state("normal", transition=Dissolve(0.15))
 
             $ ch_w.say ("{b}{size=+15}...{/b}")
             $ ch_w.say ("{b}{size=+15}ЗАБУДЬ, ПАРЯ.{/b}")
@@ -1465,6 +1537,7 @@ label label_offices:
             $ ch_narrator.say ("{i}Но, если честно, с её уст звучит почему-то тепло. Неожиданно тепло, я даже подмечу.{/i}")
     
     $ ch_w.say ("{b}{size=+15}...ХМ.{/b}")
+    $ ch_w.set_state("stare", transition=Dissolve(0.15))
 
     $ ch_narrator.say ("{i}Она стряхивает пепел со своей сигары.{/i}")
     $ ch_narrator.say ("{i}Затем оценивающе таранит меня взглядом.{/i}")
@@ -1478,14 +1551,15 @@ label label_offices:
     $ ch_narrator.say ("{i}Не потому что у меня есть инцельские замашки, и у меня, как супергероя-паука есть способность чувствовать опасность.{/i}")
     $ ch_narrator.say ("{i}А потому что она… Ну… Буквально как магма.{/i}")
     $ ch_narrator.say ("{i}И порохом от неё несёт… Со всей силы.{/i}")
-
+    $ ch_w.set_state("normal", transition=Dissolve(0.15))
     $ ch_w.say ("{b}{size=+20}ТАК ВОТ, СЛУШАЙ. ПОВТОРЯТЬ НЕ БУДУ.{/b}")
 
     $ ch_narrator.say ("{i}{shader=wave:u__amplitude=2.0:u__frequency=8.0:u__wavelength=4.0}Ай{/shader}! Вблизи она звучит ещё громче.{/i}")
     $ ch_narrator.say ("{i}Так что, наверное, спасибо…Что повторять она не будет.{/i}")
-
+    $ ch_w.set_state("point", transition=Dissolve(0.15))
     $ ch_w.say ("{b}{size=+20}ПРОСТО БАХНИ.{/b}")
     $ ch_w.say ("{b}{size=+20}ЧТОБЫ УГРОБИТЬ ЛЮДИШЕК… НЕ НАДО ПРИЧИН.{/b}")
+    $ ch_w.set_state("point angry", transition=Dissolve(0.15))
     $ ch_w.say ("{b}{size=+20}ОНИ САМИ ВЫДУМАЮТ СЕБЕ ОБЪЯСНЕНИЯ.{/b}")
     $ ch_w.say ("{b}{size=+20}ТОБОЙ…{/b}")
 
@@ -1498,7 +1572,7 @@ label label_offices:
     $ ch_w.say ("{b}{size=+20}ТУТ НАДО РОДИТЬСЯ ПРАВИЛЬНЫМ. ПРАВЫМ.{/b}")
     $ ch_w.say ("{b}{size=+20}ТАКИМ, ЧТОБЫ СЕРДЦЕ УЖЕ СКЛОНЯЛОСЬ К САМЫМ ВЫГОДНЫМ ВАРИАНТАМ.{/b}")
     $ ch_w.say ("{b}{size=+20}А ЕСЛИ НЕ РОДИЛСЯ И УМЕЕШЬ СКРЫВАТЬ ЭТО, ТО…{/b}")
-
+    $ ch_w.set_state("headsup", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}Она совершенно безумно скалится. Недолго. Видимо, чтобы случайно не изобразить на лице улыбку.{/i}")
 
     $ ch_w.say ("{b}{size=+20}...МОЖНО УБИТЬ СВОЙ МОЗГ. СДЕЛАТЬ В ДУШЕ ОГОНЬ.{/b}")
@@ -1511,10 +1585,12 @@ label label_offices:
     $ ch_narrator.say ("{i}О, мой выход. Надо начинать гнать на своих ближайших соседей. Думаю, Война оценит.{/i}")
     menu:
         "Чума, например?":
+            $ renpy.block_rollback()
             $ ch_w.say ("{b}{size=+20}О!{/b}")
+            $ ch_w.set_state("headsup", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Войне настолько нравится мой ответ, что она решает уместным шлёпнуть меня по плечу.{/i}")
             $ ch_narrator.say ("{i}Каким-то чудом я умудряюсь не рассыпаться на отдельные кости.{/i}")
-
+            $ ch_w.set_state("point", transition=Dissolve(0.15))
             $ ch_w.say ("{b}{size=+20}ПРАЛЬНО! ХОТЬ БЫ И ЭТА БОЛЬНАЯ.{/b}")
             $ ch_w.say ("{b}{size=+20}ОДНИ ТОЛЬКО БЛА-БЛА.{/b}")
             $ ch_w.say ("{b}{size=+20}ЕЁ МОЗГА ВНУШАЕТ ЕЙ ВСЕСИЛИЕ.{/b}") 
@@ -1532,17 +1608,19 @@ label label_offices:
             $ ch_narrator.say ("{i}Но не сказать, что оказаться под натиском кого-то по типу Войны многим лучше.{/i}")
 
         "Например, Голод, да?":
+            $ renpy.block_rollback()
             $ ch_w.say ("{b}{size=+20}О!{/b}")
-
+            $ ch_w.set_state("headsup", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Войне настолько нравится мой ответ, что она решает уместным шлёпнуть меня по плечу.{/i}")
             $ ch_narrator.say ("{i}Каким-то чудом я умудряюсь не рассыпаться на отдельные кости.{/i}")
-
+            $ ch_w.set_state("point", transition=Dissolve(0.15))
             $ ch_w.say ("{b}{size=+20}ПРАЛЬНО! ХОТЬ БЫ И ЭТА ДОХОДЯГА.{/b}")
             $ ch_w.say ("{b}{size=+20}ВЕДЁТ УЧЁТ ВСЕГО ЧЁ МОЖНО… А ТОЛКУ?{/b}")
             $ ch_w.say ("{b}{size=+20}КОПИТ ЗНАНИЯ… НА ВСЯКИЙ СЛУЧАЙ…{/b}")
             $ ch_w.say ("{b}{size=+20}КАКОЙ ТАКОЙ СЛУЧАЙ?{/b}")
             $ ch_w.say ("{b}{size=+20}ОНА И СЛОВА ЛИШНЕГО НЕ СКАЖЕТ. А ДЕЛАТЬ — НИЧЕГО НЕ ДЕЛАЕТ.{/b}")
             $ ch_w.say ("{b}{size=+20}ТЬФУ, ЛЕЖАЩЕГО И БИТЬ СТЫДНО!{/b}")
+            $ ch_w.set_state("point angry", transition=Dissolve(0.15))
             $ ch_w.say ("{b}{size=+20}А ИНОГДА ТАК И ХОЧЕТСЯ ВМАЗАТЬ ТУПИЦЕ!{/b}")
             $ ch_w.say ("{b}{size=+20}НО СМЫСЛ? ОНА ДАЖЕ НЕ ВРАГ. НЕТ ОТ НЕЁ ДЕЙСТВИЙ.{/b}")
             $ ch_w.say ("{b}{size=+20}НИЧЁ ОНА НЕ ОТВЕТИТ.{/b}")
@@ -1552,12 +1630,12 @@ label label_offices:
             $ ch_narrator.say ("{i}Думаю, учитывая характер Голода, она расстроится больше из-за того, что свинец калорийный… Нежели чем от того, что с ней так обходятся.{/i}")
             $ ch_narrator.say ("{i}Ну… Я бы расстроился скорее потому, что меня пытаются уничтожить.{/i}")
             $ ch_narrator.say ("{i}Не очень это, кхм, дружелюбно…{/i}")
-
+    $ ch_w.set_state("point", transition=Dissolve(0.15))
     $ ch_w.say ("{b}{size=+20}БУДЕШЬ СЕБЯ ТАК ЖЕ ВЕСТИ — ВЫЛЕТИШЬ.{/b}")
     $ ch_w.say ("{b}{size=+20}ЭТО ЯСНО?{/b}")
 
     $ ch_death.say ("Ясно!")
-
+    $ ch_w.set_state("point angry", transition=Dissolve(0.15))
     $ ch_w.say ("{b}{size=+20}СМЕРТЬ ДОЛЖНА ГОВОРИТЬ ГРОМЧЕ.{/b}")
 
     $ ch_narrator.say ("{i}...Там в оригинальной фразе точно было не моё имя.{/i}")
@@ -1568,6 +1646,8 @@ label label_offices:
 
     menu:
         "СОСАТЬ + ЛЕЖАТЬ. {i}Ну, реалистично.{/i}":
+            $ renpy.block_rollback()
+            $ ch_w.set_state("stare", transition=Dissolve(0.15))
             $ var_war_score += 0
             $ ch_narrator.say ("{i}...{/i}")
 
@@ -1577,14 +1657,16 @@ label label_offices:
             $ ch_narrator.say ("{i}Главное сейчас вовремя лечь…{/i}")
 
             $ ch_w.say ("{shader=wave:u__amplitude=2.0:u__frequency=8.0:u__wavelength=4.0}{b}{size=+20}{cps=*0.5}УБЕЙСЯ.{/cps}{/b}{/shader}")
-
+            
+            $ ch_w.set_state("point angry", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}После этих слов она хватает меня за шкирку и, сосредоточив всю существующую в этой Галактике агрессию, выбрасывает за пределы своего кабинета.{/i}")
             $ ch_narrator.say ("{i}Сказал бы я, что отделался лёгким испугом, но на этом Война не прощается.{/i}")
 
             $ ch_w.say ("{b}{size=+20}МЕРЗОСТЬ СОЕВАЯ. ЧТОБ НЕ ВИДЕЛА ТЕБЯ БОЛЬШЕ.{/b}")
 
             $ ch_narrator.say ("{i}Дверь за мной оглушительно громко захлопывается.{/i}")
-            scene corridor
+            $ ch_w.set_state("hidden", transition=Dissolve(0.15))
+            scene bg corridor with vpunch
             $ ch_narrator.say ("{i}В замке с той стороны гремит ключ.{/i}")
 
             $ ch_death.say ("{shader=wave:u__amplitude=2.0:u__frequency=9.0:u__wavelength=2.0}Ай!{/shader}")
@@ -1593,13 +1675,16 @@ label label_offices:
             $ ch_narrator.say ("{i}Бьюсь об заклад, это наковальня. Словно в дурацких мультиках.{/i}")
             $ ch_narrator.say ("{i}В глазах темнеет…{/i}")
 
+            scene black with fade
+
             if var_roots == 3:
                 $ ch_narrator.say ("{i}Я сдаюсь…{/i}")
                 $ ch_narrator.say ("{i}Если так будет угодно {b}Богу{/b}, меня завтра найдут и телепортируют домой.{/i}")
                 $ ch_narrator.say ("{i}А если нет, то и поделом…{/i}")
                 jump ending
-        
+
             $ ch_narrator.say ("{i}...{/i}")
+            scene corridor with fade
             $ ch_narrator.say ("{i}Я моргаю, уже вижу, как скоро кончится моё бренное существование.{/i}")
             $ ch_narrator.say ("{i}Но сила нарратива возвращает меня в сознание.{/i}")
             $ ch_narrator.say ("{i}Хоть какие-то есть плюсы быть главным героем.{/i}")
@@ -1618,7 +1703,9 @@ label label_offices:
                     call label_landfill
 
         "СЛУЖИТЬ ВОЙНЕ И МОЛЧАТЬ": # (2)
+            $ renpy.block_rollback()
             $ var_war_score += 2
+            $ ch_w.set_state("stare", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}...{/i}")
 
             $ ch_w.say ("{b}{size=+20}...{/b}")
@@ -1637,12 +1724,14 @@ label label_offices:
             $ ch_narrator.say ("{i}И давить на меня со всей силы куда активнее, чем раньше.{/i}")
             $ ch_narrator.say ("{i}Ещё немного — и мне в грудине пробурят зияющую дыру.{/i}")
             $ ch_narrator.say ("{i}Это такой язык любви, похоже.{/i}")
-            
+
+            $ ch_w.set_state("point", transition=Dissolve(0.15))
             $ ch_w.say ("{b}{size=+20}С-СЛУЖИТЬ ШАГОМ МАРШ.{/b}")
             
             $ ch_death.say ("Есть, кхм, {w} ЕСТЬ!")
             
             if var_war_score >= 5:
+                $ ch_w.set_state("point angry", transition=Dissolve(0.15))
                 $ ch_w.say ("{b}{size=+20}ВЕЧЕРОМ. МОЙ ДОМ. ШАГОМ МАРШ.{/b}")
                 
                 $ ch_narrator.say ("{i}Оу.{/i}")
@@ -1659,7 +1748,8 @@ label label_offices:
 
             if var_war_score < 5:
                 $ ch_narrator.say ("{i}Стройным шагом выхожу из кабинета.{/i}")
-                scene corridor
+                $ ch_w.set_state("hidden", transition=Dissolve(0.15))
+                scene corridor with fade
                 $ ch_narrator.say ("{i}Ну, было неплохо.{/i}")
 
                 if var_roots == 3:
@@ -1690,21 +1780,23 @@ label label_offices:
 
 
         "РАБОТАТЬ И… РАБОТАТЬ!": # (3)
+            $ renpy.block_rollback()
             $ var_war_score += 1
+            $ ch_w.set_state("stare", transition=Dissolve(0.15))
             $ ch_w.say ("{b}{size=+20}...{/b}")
             $ ch_w.say ("{b}{size=+20}...ВЕРНО.{/b}")
 
             $ ch_narrator.say ("{i}Война начинает гореть ярче прежнего.{/i}")
             $ ch_narrator.say ("{i}И давить на меня со всей силы куда активнее, чем раньше.{/i}")
-            $ ch_narrator.say ("{i}Ещё немного — и мне в грудине пробурят зияющую дыру./i}")
+            $ ch_narrator.say ("{i}Ещё немного — и мне в грудине пробурят зияющую дыру.{/i}")
             $ ch_narrator.say ("{i}Это такой язык любви, похоже.{/i}")
-            
+            $ ch_w.set_state("point", transition=Dissolve(0.15))
             $ ch_w.say ("{b}{size=+20}С-СЛУЖИТЬ ШАГОМ МАРШ.{/b}")
             
             $ ch_death.say ("Есть, кхм, {w} ЕСТЬ!")
             
             if var_war_score >= 5:
-            
+                $ ch_w.set_state("point angry", transition=Dissolve(0.15))
                 $ ch_w.say ("{b}{size=+20}ВЕЧЕРОМ. ДОМ-СОЗВОН. ШАГОМ МАРШ.{/b}")
                 
                 $ ch_narrator.say ("{i}Оу.{/i}")
@@ -1714,7 +1806,8 @@ label label_offices:
                 $ ch_narrator.say ("{i}В лёгком недоумении, что же на самом деле такое «дом-созвон» и точно ли тут не замешан так называемый фемдом, я марширую к выходу из кабинета.{/i}")
                 $ ch_narrator.say ("{i}Мне самую малость, эм, стрёмно. Но.{/i}")
                 $ ch_narrator.say ("{i}Кажется, я выбрал это сам.{/i}")
-                scene corridor
+                $ ch_w.set_state("hidden", transition=Dissolve(0.15))
+                scene corridor with fade
                 if var_roots == 3:
                     $ ch_narrator.say ("{i}Ну… Созвон, каким бы он там ни был, всё равно будет {b}дома{/b}.{/i}")
                     $ ch_narrator.say ("{i}Так что… Ну. Все дороги ведут в мой уединенный Рим.{/i}")
@@ -1722,7 +1815,8 @@ label label_offices:
 
             if var_war_score < 5:
                 $ ch_narrator.say ("{i}Стройным шагом выхожу из кабинета.{/i}")
-                scene corridor
+                $ ch_w.set_state("hidden", transition=Dissolve(0.15))
+                scene corridor with fade
                 $ ch_narrator.say ("{i}Ну, было неплохо.{/i}")
                 
                 if var_roots == 3:
@@ -1731,6 +1825,8 @@ label label_offices:
                     $ ch_narrator.say ("{i}А пока… Я лучше вернусь к мирскому существованию.{/i}")
                     jump ending
 
+            $ ch_w.set_state("hidden", transition=Dissolve(0.15))
+            scene bg corridor with fade         
             $ ch_narrator.say ("{i}...{/i}")
             $ ch_narrator.say ("{i}Я вдоволь проморгался.{/i}")
             $ ch_narrator.say ("{i}Не идеально, конечно, получилось. Но… Не из вон рук отвратно, да?{i}")
@@ -1821,8 +1917,6 @@ label label_canteen:
     $ ch_narrator.say ("{i}Все сферы возможного влияния заполнились самыми разными телами, но почему-то в первую очередь просто нездорово большими.{/i}")
     $ ch_narrator.say ("{i}Типа.{/i}")
     $ ch_narrator.say ("{i}Я и сам, мягко говоря, не образец красоты. И, ну, нестандартное у меня, скажем так… Тело… Скелет, окей. Тут только в рекламе детского йогурта сниматься.{/i}")
-    $ ch_narrator.say ("{i}Типа.{/i}")
-    $ ch_narrator.say ("{i}Я и сам, мягко говоря, не образец красоты. И, ну, нестандартное у меня, скажем так… Тело… Скелет, окей. Тут только в рекламе детского йогурта сниматься.{/i}")
     $ ch_narrator.say ("{i}Да {b}Бог{/b} вообще с этим, каждый по-своему хорош. Будь все вокруг какого-то унифицированного единого силуэта, выглядело б это крайне печально.{/i}")
     $ ch_narrator.say ("{i}Не просто же так во всех медиа, начиная от книжек и заканчивая играми, всегда добавляют героев разных типажей.{/i}")
     $ ch_narrator.say ("{i}И внутренне, и внешне, между прочим.{/i}")
@@ -1864,6 +1958,7 @@ label label_canteen:
     $ ch_narrator.say ("{i}...Или мне лучше прекращать быть собой, чтобы уговорить её мне помочь?{/i}")
     $ ch_narrator.say ("{i}Да уж, а говорят, что легко быть иждивенцем. Мне проще быть никем.{/i}")
     $ ch_narrator.say ("{i}Но я так уже побыл собой, то есть никем, и вот куда это меня привело.{/i}")
+    $ ch_h.set_state("normal shy", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}Выбираясь из своих крайне депрессивных мыслей, замечаю, что всё это время Голод листала свою книжку.{/i}")
     $ ch_narrator.say ("{i}Медитативно, как будто у неё был тайминг, когда именно надо перелистнуть страницу.{/i}")
     $ ch_narrator.say ("{i}Мдэ, у нас тут точно только самые неординарные личности собрались.{/i}")
@@ -1872,6 +1967,7 @@ label label_canteen:
 
     $ ch_narrator.say ("{i}Отчеканив это, она глядит на меня из-под своей чёлки и улыбается настолько приторно, что становится не по себе.{/i}")
 
+    $ ch_h.set_state("laughing nervous", transition=Dissolve(0.15))
     $ ch_h.say ("{i}Столько по моим расчётам тебя не было, с-с-сладкий.{/i}")
 
     $ ch_death.say ("Ох, эм. А что, звонки в К0-В1Дную эру не считаются?")
@@ -1879,6 +1975,7 @@ label label_canteen:
     $ ch_narrator.say ("{i}Надо же как-то сделать так, чтобы я не выглядел, как давний друг, который внезапно объявился с предложением вложиться в финансовую пирамиду.{/i}")
     $ ch_narrator.say ("{i}Голод принялась учащённо моргать, не прекращая растягивать уголки губ.{/i}")
 
+    $ ch_h.set_state("normal", transition=Dissolve(0.15))
     $ ch_h.say ("{i}Так ты же, буб-б-блик, ни камеру, ни микрофон никогда не включал.{/i}")
 
     $ ch_narrator.say ("{i}Ах да. Я тогда предпочитал просто делать вид, что присутствую, и сидеть в мёртвой тишине.{/i}")
@@ -1890,8 +1987,9 @@ label label_canteen:
         "Ты… {b}реально{/b} считала? Это, эм, немного…":
             $ var_hunger_score += 1
             $ renpy.block_rollback()
+            $ ch_h.set_state("dissapointed", transition=Dissolve(0.15))
             $ ch_h.say ("{i}Согласна, это так мало… Меньшее, что я могу сделать… К-к-капля в море…{/i}")
-
+            $ ch_h.set_state("normal shy", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Голод розовеет  — слишком она бледная, чтобы покраснеть  — и вся ёжится от смущения.{/i}")
             $ ch_narrator.say ("{i}Видимо, оно и к лучшему, что я не успел договорить.{/i}")
             $ ch_narrator.say ("{i}Хотя заканчивать предложения за других  — не то чтобы вежливо.{/i}")
@@ -1905,11 +2003,13 @@ label label_canteen:
         "Воу. Это. Кхм. Это впечатляет. Ты, то есть, а что ещё ты так подсчитываешь в книжечке?":
             $ var_hunger_score += 2
             $ renpy.block_rollback()
+            $ ch_h.set_state("laughing", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Стоит мне это озвучить  —  и Голод начинает, кажется, светиться.{/i}")
             $ ch_narrator.say ("{i}Ну, знаете, как оно бывает, когда сушеную рыбу к лампочке подносишь./i}")
             $ ch_narrator.say ("{i}Не лучшая метафора.{/i}")
             $ ch_narrator.say ("{i}Голод в любом случае милее рыбы. Костлявее ли  — под вопросом.{/i}")
 
+            $ ch_h.set_state("normal", transition=Dissolve(0.15))
             $ ch_h.say ("{i}Ты п-правда так думаешь?{/i}")
             $ ch_h.say ("{i}Да я же, хи-хи, так… Просто, хих, чтобы на языке не в-в-вертелось, записываю на бумагу.{/i}")
             $ ch_h.say ("{i}У меня там ещё статистика популярности паблика «Однотипная Анорексичка» по годам, 10000 диет, м-м-м…{/i}")
@@ -1925,6 +2025,7 @@ label label_canteen:
 
             $ ch_death.say ("Ну… А для {b}мальчиков{/b} тогда чего?")
 
+            $ ch_h.set_state("fear", transition=Dissolve(0.15))
             $ ch_h.say ("{i}Ах!{/i}")
 
         "Очень мило с твоей стороны, ну, типа, такое вот внимание ко мне… Спасибо? Извини, что меня не было?":
@@ -1933,6 +2034,7 @@ label label_canteen:
             $ ch_narrator.say ("{i}Вежливо улыбаюсь, чтобы доброжелательность из меня прям сочилась. Изо всех дыр. У меня их много, между прочим.{/i}")
 
             $ ch_narrator.say ("{i}...{/i}")
+            $ ch_h.set_state("dissapointed", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Голод почему-то, наоборот, совсем перестала улыбаться.{/i}")
             $ ch_narrator.say ("{i}Я пытаюсь перебрать в голове только что озвученные слова.{/i}")
             $ ch_narrator.say ("{i}Да нет, я точно не сказал ничего такого. По крайней мере, чтобы вызвать {b}ПОДОБНУЮ{/b} реакцию.{/i}")
@@ -1954,7 +2056,7 @@ label label_canteen:
             $ ch_narrator.say ("{i}Я решаюсь открыть рот в момент, когда вижу, что её ногти начинают пошкрябывать рёбра. {/i}")
 
             $ ch_death.say ("Всё… в порядке?")
-
+            $ ch_h.set_state("laughing nervous", transition=Dissolve(0.15))
             $ ch_h.say ("{i}{shader=wave:u__amplitude=2.0:u__frequency=10.0:u__wavelength=2.0}Н-надеюсь!{/shader}{/i}")
 
             $ ch_narrator.say ("{i}Я тоже… Надеюсь…{/i}")
@@ -1968,13 +2070,14 @@ label label_canteen:
             $ ch_narrator.say ("{i}Ладно, попробуем иначе.{/i}")
 
             $ ch_death.say ("А я вообще хотел спросить, ну, а книжка эта…{nw}")
-
+            $ ch_h.set_state("laughing", transition=Dissolve(0.15))
             $ ch_h.say ("{i}А! Рада, что ты спросил!{/i}")
 
             $ ch_narrator.say ("{i}Я ничего ещё не спросил.{/i}")
             $ ch_narrator.say ("{i}Но когда разговор зашёл не о ней, а о книжке  — она вновь преобразилась. В лучшую сторону.{/i}")
             $ ch_narrator.say ("{i}Ладно. Как ей угодно. Сытый голодного не поймёт, похоже.{/i}")
 
+    $ ch_h.set_state("normal", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}Голод с удвоенным энтузиазмом начинает улыбаться в прежней сахарной манере.{/i}")
 
     $ ch_h.say ("{i}Ну…{/i}")
@@ -1994,6 +2097,7 @@ label label_canteen:
 
     $ ch_narrator.say ("{i}Поразительно, но она сейчас выглядит КРАЙНЕ кокетливо.{/i}")
 
+    $ ch_h.set_state("laughing", transition=Dissolve(0.15))
     $ ch_h.say ("{i}Так получилось!{/i}")
     $ ch_h.say ("{i}Но ведь важнее всего то, что я могу помочь тебе с приготовлениями!{/i}")
 
@@ -2005,14 +2109,17 @@ label label_canteen:
     $ ch_narrator.say ("{i}Это буквально не было настолько смешно.{/i}")
 
     $ ch_h.say ("{i}Нет, сладулечка, тебе не пошло бы!{/i}")
+    $ ch_h.set_state("normal", transition=Dissolve(0.15))
     $ ch_h.say ("{i}Я говорю о том, что… Хе-хе, могла бы тебе помочь с организацией конца мира.{/i}")
     $ ch_h.say ("{i}К-конечно, это я не про себя…{/i}")
     $ ch_h.say ("{i}Просто про других у меня тоже записано много-много чего, ты не подумай, что я слежу только за тобой, это было бы очень странно!{/i}")
+    $ ch_h.set_state("laughing", transition=Dissolve(0.15))
     $ ch_h.say ("{i}Я слежу за {b}всеми{/b}!{/i}")
 
     $ ch_narrator.say ("{i}А, ну да, так намного лучше.{/i}")
-    $ ch_narrator.say ("{i}Так что, конечно, у меня скопилось немного информации в том числе и про наш отдел.{/i}")
+    $ ch_h.say ("{i}Так что, конечно, у меня скопилось немного информации в том числе и про наш отдел.{/i}")
 
+    $ ch_h.set_state("normal", transition=Dissolve(0.15))
     $ ch_h.say ("{i}И-и-и я могу совсем бескорыстно с тобой этим поделиться, потому что я просто люблю помогать, но, конечно, это… Это такая мелочь! Не стоит обращать на это внимание.{/i}")
 
     $ ch_narrator.say ("{i}Поправив очки, она впивается взглядом в свои записи.{/i}")
@@ -2040,18 +2147,23 @@ label label_canteen:
     $ ch_narrator.say ("{i}Опять она на меня смотрит своими бездонно голодными глазами.{/i}")
     $ ch_narrator.say ("{i}Я всем видом показываю, что хочу что-то сказать, но это сквозь поволоку она разглядеть уже не может.{/i}")
 
+    $ ch_h.set_state("dissapointed", transition=Dissolve(0.15))
     $ ch_h.say ("{i}Ох, и Война… У нас с ней совсем сложные отношения, если честно. Мне кажется, она меня не признаёт…{/i}")
+    $ ch_h.set_state("normal", transition=Dissolve(0.15))
     $ ch_h.say ("{i}Н-но, но… Она, можно сказать, противоположность Чумы!{/i}")
     $ ch_h.say ("{i}Не полная, разумеется, точки соприкосновения у них есть! Однако же…{/i}")
     $ ch_h.say ("{i}Ей, наоборот, нужен максимально быстрый результат. И она совсем-совсем нетерпеливая душенька!{/i}")
     $ ch_h.say ("{i}Тот факт, что про Войну у меня записано так мало — лучшая характеристика Войнушечки!{/i}")
+    $ ch_h.set_state("fear", transition=Dissolve(0.15))
     $ ch_h.say ("{i}Немногословная, грубая, лишённая всяких манер. Ужас-ужас! Конечно, соответствует своему роду деятельности.{/i}")
 
     $ ch_narrator.say ("{i}И для работы с ней нужно уподобляться такого рода взрывному поведению!{/i}")
 
+    $ ch_h.set_state("dissapointed", transition=Dissolve(0.15))
     $ ch_h.say ("{i}Не уверена, с кем труднее выстраивать коммуникацию…{/i}")
 
     $ ch_narrator.say ("{i}И опять на меня обращают внимание.{/i}")
+    $ ch_h.set_state("normal", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}Откровенно: со мной флиртуют.{/i}")
     $ ch_narrator.say ("{i}Кто-то бы даже назвал Голод, кхм, «пикми». Кто-то бы приплёл еду, в смысле, персики и… {b}Понятно{/b}. И это было бы уж совсем грубо.{/i}")
     $ ch_narrator.say ("{i}Но я просто думаю, что она крайне увлечённая натура. И если ей интересно хоть что-либо, то она доводит это до… Абсолюта.{/i}")
@@ -2063,6 +2175,7 @@ label label_canteen:
     $ ch_death.say ("A—{nw}")
 
     $ ch_h.say ("{i}«А что до тебя, моя Голод»?{/i}")
+    $ ch_h.set_state("normal shy", transition=Dissolve(0.15))
     $ ch_h.say ("{i}Ну-у-у, а ты как думаешь? Какие у тебя есть, хи-хи, наблюдения?{/i}")
 
     if var_roots == 2:
@@ -2074,6 +2187,7 @@ label label_canteen:
 
     if var_roots == 3:
         $ ch_h.say ("{i}{cps=*0.5}Ты же уже был у них обеих, да?{/cps}{/i}")
+        $ ch_h.set_state("laughing nervous shy", transition=Dissolve(0.15))
         $ ch_h.say ("{i}{cps=*0.5}Мог ведь и про меня хоть чего-нибудь узнать? Это было бы так замеч-ч-чательно с твоей сторонушки.{/cps}{/i}")
 
         $ ch_narrator.say ("{i}...?{/i}")
@@ -2085,6 +2199,7 @@ label label_canteen:
         "Ты… Ну, ты внимательная! С тобой тоже нужно быть внимательным, чтобы сотрудничество было, эм, плодотворным.":
             $ var_hunger_score += 1
             $ renpy.block_rollback()
+            $ ch_h.set_state("normal", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Улыбаться Голод не перестаёт. Получается, я её хотя бы не расстроил.{/i}")
             $ ch_narrator.say ("{i}Другое дело — не сказал бы, что она от счастья сейчас будет прыгать на месте.{/i}")
             $ ch_narrator.say ("{i}Но уже неплохо?{/i}")
@@ -2100,7 +2215,7 @@ label label_canteen:
         "Ты… Прелесть. Я ни разу ещё не встречал настолько хороших людей. Таких заботливых, что ли. С тобой просто работать. Душа коллектива!" :
             $ var_hunger_score += 0
             $ renpy.block_rollback()
-            #расстроенный спрайт
+            $ ch_h.set_state("angry", transition=Dissolve(0.15))
 
             $ ch_narrator.say ("{i}Я на неё вопросительно гляжу.{/i}")
             $ ch_narrator.say ("{i}Она стала в несколько раз более бледной.{/i}")
@@ -2108,6 +2223,7 @@ label label_canteen:
 
             $ ch_death.say ("Всё в пор—{nw}")
 
+            $ ch_h.set_state("laughing nervous", transition=Dissolve(0.15))
             $ ch_h.say ("{i}Да!{/i}")
             #а тут уже улыбающийся нервно спрайт
 
@@ -2122,6 +2238,7 @@ label label_canteen:
         "Ты… Если честно, поражаюсь твоей организованности. У меня бы никогда не хватило терпения и упорства вести дневник… И, эм, в целом следить за собой я тоже не очень мастак.":
             $ var_hunger_score += 2
             $ renpy.block_rollback()
+            $ ch_h.set_state("laughing", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Голод выглядит, во-первых, чрезмерно радостной.{/i}")
             $ ch_narrator.say ("{i}Во-вторых, чрезмерно… Просто чрезмерно. Откровенно говоря, на какую-то, прости {b}Господи{/b}, яндере она смахивает. {/i}")
             $ ch_narrator.say ("{i}У нас тут всё-таки дейт-{b}сим{/b} скорее, а не… Другой кое-какой.{/i}")
@@ -2136,6 +2253,7 @@ label label_canteen:
     $ ch_narrator.say ("{i}Нашу беседу прерывает знакомый нежный голос.{/i}")
     $ ch_narrator.say ("{i}Ревекка вернулась.{/i}")
 
+    $ ch_h.set_state("normal", transition=Dissolve(0.15))
     $ ch_h.say ("{i}Ах, приветик, наша самая пирож-ж-жулечная Ревекка!{/i}")
 
     $ ch_r.say ("Здравствуй, Голод. Как всегда изголодалась по полёту нашей кулинарной фантазии?")
@@ -2158,6 +2276,7 @@ label label_canteen:
     $ ch_narrator.say ("{i}По-джентельменски я, слегка тряхнув головой, делаю пробный шаг в сторону Ревекки.{/i}")
     $ ch_narrator.say ("{i}…{/i}")
     $ ch_narrator.say ("{i}Разумеется.{/i}")
+    $ ch_h.set_state("normal shy", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}С переслащенной улыбкой Голод подхватывает меня под руку и ведёт.{/i}")
     $ ch_narrator.say ("{i}Вот ещё немного — и под венец.{/i}")
     $ ch_narrator.say ("{i}Мне везёт, что мы сейчас в, {shader=wave:u__amplitude=5.0:u__frequency=2.0:u__wavelength=20.0}блин блинский{/shader}, офисной столовой.{/i}")
@@ -2178,6 +2297,7 @@ label label_canteen:
     $ ch_narrator.say ("{i}Опять же: мы в столовой.{/i}")
     $ ch_narrator.say ("{i}А я {shader=wave:u__amplitude=5.0:u__frequency=2.0:u__wavelength=20.0}на волоске от смерти{/shader}.{/i}")
 
+    $ ch_h.set_state("normal", transition=Dissolve(0.15))
     $ ch_h.say ("{i}Всё хорошо? Или тебе нич-ч-чего не хочется, сладулеч-ч-чка?{/i}")
 
     $ ch_death.say ("Ну я… Я, конечно, посмотреть всегда рад.")
@@ -2199,7 +2319,9 @@ label label_canteen:
     $ ch_narrator.say ("{i}Поворачиваю голову вбок.{/i}")
     $ ch_narrator.say ("{i}На меня, само собой, и так уже повёрнуты. Или на мне повёрнуты. Или оба утверждения верны.{/i}")
 
+    $ ch_h.set_state("fear shy", transition=Dissolve(0.15))
     $ ch_h.say ("{i}Хм-м-м? Я тебя отвлекаю? Прости-прости-прости!{/i}")
+    $ ch_h.set_state("normal", transition=Dissolve(0.15))
     $ ch_h.say ("{i}Ты… Что-нибудь хочешь на дес-с-сертик?{/i}")
 
     $ ch_narrator.say ("{i}Молчит. Выжидает. Это… явно не просто вопрос.{/i}")
@@ -2216,19 +2338,21 @@ label label_canteen:
             $ ch_narrator.say ("{i}Не уверен: это я её просто не так уж и впечатлил, или Голод всего-то ведёт себя сдержанно.{/i}")
             $ ch_narrator.say ("{i}Но никакой феерии не наблюдается.{/i}")
 
+            $ ch_h.set_state("laughing", transition=Dissolve(0.15))
             $ ch_h.say ("{i}Ти-хи-хи.{/i}")
 
             $ ch_narrator.say ("{i}Это явно не феерия. Но это… Голод. Весёлая и совсем не недовольная.{/i}")
 
             $ ch_h.say ("{i}Мне тоже ничего тогда, Ребеккушка. Хотя у тебя тут такой аккуратный воздушный почерк, что я уже будто ощущаю вкус зефира.{/i}")
             $ ch_h.say ("{i}Всё-таки ты и вправду чудеса творишь, нигде больше т-т-такого не ощущала…!{/i}")
+            $ ch_h.set_state("normal", transition=Dissolve(0.15))
             $ ch_h.say ("{i}М-м-м, а ты, Смертуш-шка? Ты что-нибудь чувствуешь?{/i}")
 
             $ ch_narrator.say ("{i}Пустоту в животе.{/i}")
             $ ch_narrator.say ("{i}Ну у меня его нет потому что.{/i}")
 
             $ ch_death.say ("Я чувствую {shader=wave:u__amplitude=5.0:u__frequency=2.0:u__wavelength=20.0}Голод{/shader}.")
-
+            $ ch_h.set_state("laughing", transition=Dissolve(0.15))
             $ ch_h.say ("{i}Так это самое вкус-с-сненькое!{/i}")
 
             $ ch_narrator.say ("{i}Её озорной смех кружится в моих ушах. В дырках для ушей.{/i}")
@@ -2239,7 +2363,7 @@ label label_canteen:
             $ ch_h.say ("{i}Если буду в долж-ж-жном расположении тела и духа. Хи-хи.{/i}")
 
             $ ch_death.say ("Хорош—{nw}")
-
+            $ ch_h.set_state("hidden", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Одной мимолётной секундой она исчезает.{/i}")
             $ ch_narrator.say ("{i}Это… Эм… Подозреваю, что такая способность доступна только ей.{/i}")
             $ ch_narrator.say ("{i}В плане… Думаю, с её весом испариться в материи реальности — это {b}реально{/b} несложно.{/i}")
@@ -2257,10 +2381,12 @@ label label_canteen:
             $ ch_narrator.say ("{i}А тут никакого развода. Я конкретно попал.{/i}")
             $ ch_narrator.say ("{i}И, эм. Судя по тому, как по моим косточкам скребется длиннющий маникюр, никуда меня просто так не отпустят.{/i}")
 
+            $ ch_h.set_state("laughing", transition=Dissolve(0.15))
             $ ch_h.say ("{i}Ну мой! Просто мой!{/i}")
             $ ch_h.say ("{i}Видишь, Ревекка? Бес-с-спокоиться за свою фигуру — это совсем нормально!{/i}")
             $ ch_h.say ("{i}И одни только мысли, тревоги делают любой протеиновый батончик в сто раз более питательным.{/i}")
             $ ch_h.say ("{i}Главное — щ-щ-щепотка воображения.{/i}")
+            $ ch_h.set_state("normal", transition=Dissolve(0.15))
             $ ch_h.say ("{i}Правда, Смертушка? Ты это тоже чув-в-вствуешь?{/i}")
 
             $ ch_narrator.say ("{i}Ага… Пустоту в животе.{/i}")
@@ -2274,7 +2400,9 @@ label label_canteen:
 
             $ ch_death.say ("Я, кхм, чувствую {shader=wave:u__amplitude=5.0:u__frequency=2.0:u__wavelength=20.0}Голод{/shader}.")
 
+            $ ch_h.set_state("laughing", transition=Dissolve(0.15))
             $ ch_h.say ("{i}Пфх.{/i}")
+            $ ch_h.set_state("laughing nervous shy", transition=Dissolve(0.15))
             $ ch_h.say ("{i}Так это самое вкус-с-сненькое!{/i}")
 
             $ ch_narrator.say ("{i}Её озорной смех кружится в моих ушах. В дырках для ушей.{/i}")
@@ -2282,6 +2410,7 @@ label label_canteen:
             $ ch_narrator.say ("{i}Только сейчас я понимаю, насколько она на самом деле (г)холодная.{/i}")
             $ ch_narrator.say ("{i}Так это я ещё и скелет…{/i}")
 
+            $ ch_h.set_state("normal shy", transition=Dissolve(0.15))
             $ ch_h.say ("{i}Ревекка, угости его моим любимым, я всё-ё-ё оплачу.{/i}")
 
             $ ch_narrator.say ("{i}Голод гладит меня по щеке. До сих пор флёр плюшевого дурачка меня не покидает.{/i}")
@@ -2296,6 +2425,7 @@ label label_canteen:
 
             $ ch_death.say ("Хорош—{nw}")
 
+            $ ch_h.set_state("hidden", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Одной мимолётной секундой она исчезает.{/i}")
             $ ch_narrator.say ("{i}Это… Эм… Подозреваю, что такая способность доступна только ей.{/i}")
             $ ch_narrator.say ("{i}В плане… Думаю, с её весом испариться в материи реальности — это {b}реально{/b} несложно.{/i}")
@@ -2304,6 +2434,7 @@ label label_canteen:
         "Может, хватит меня проверять на вшивость? Я просто хочу Ребёнок Сюрприз.":
             $ var_hunger_score += 0
             $ renpy.block_rollback()
+            $ ch_h.set_state("angry", transition=Dissolve(0.15))
             $ ch_h.say ("{i}Ах...{/i}")
 
             $ ch_narrator.say ("{i}Её хватка ослабевает. Свободнее я себя почему-то от этого совсем не ощущаю.{/i}")
@@ -2317,6 +2448,7 @@ label label_canteen:
 
             $ ch_death.say ("М…? Тебе, может—{nw}")
 
+            $ ch_h.set_state("dissapointed", transition=Dissolve(0.15))
             $ ch_h.say ("{i}Нет-нет!{/i}")
             $ ch_h.say ("{i}Ты… Ты прав, я совсем ужасненькая, не могу даже {shader=wave:u__amplitude=2.0:u__frequency=8.0:u__wavelength=4.0}спокойно{/shader} провести время в столовой. Со своим {shader=wave:u__amplitude=2.0:u__frequency=8.0:u__wavelength=4.0}спокойным{/shader} коллегой. За {shader=wave:u__amplitude=8.0:u__frequency=2.0:u__wavelength=20.0}спокойнейш-ш-шей{/shader} беседой.{/i}")
 
@@ -2326,6 +2458,7 @@ label label_canteen:
             $ ch_h.say ("{i}Я… Мне...! Не получается, видимо, у меня… Быть достаточно съед-добной для кого-то вроде тебя.{/i}")
             $ ch_h.say ("{i}Прости.{/i}")
 
+            $ ch_h.set_state("hidden", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}...{/i}")
             $ ch_narrator.say ("{i}Одной мимолётной секундой она исчезает.{/i}")
             $ ch_narrator.say ("{i}Это… Эм… Подозреваю, что такая способность доступна только ей.{/i}")
@@ -2388,6 +2521,7 @@ return
 ####################################################################################################################################################################################
 
 label ending:
+    $ renpy.block_rollback()
     play music "music/god.ogg" loop fadein 1.5 
     scene bg cgall with fade
     $ ch_news.say ("{cps=*2}Экстренное включение!{/cps}")
@@ -2416,6 +2550,7 @@ label ending:
         jump bad_ending
 
 label plague_ending:
+    scene bg plagueend with fade
     $ ch_news.say ("{cps=*2}Вспышка нового смертельного вируса, К0-В1[Д]ЛС_НГ+! Вирус распространяется с аномально высокой скоростью.{/cps}")
     $ ch_news.say ("{cps=*2}По предварительным данным, очаг заражения — Китай.{/cps}")
     $ ch_news.say ("{cps=*2}{alpha=*0.5}И вправду, ДЛС на НГ+...{/alpha}{/cps}")
@@ -2449,6 +2584,7 @@ label plague_ending:
 return
 
 label war_ending:
+    scene bg warend with fade
     $ ch_news.say ("{cps=*2}МИР ВО ВСЁМ МИРЕ — В С Ё.{/cps}")
     $ ch_news.say ("{cps=*2}Утренние новости ЖЁСТКО про обстановку на планете Земля.{/cps}")
     $ ch_news.say ("{cps=*2}Ранее голубое небо навсегда стало свинцовым. Как {b}консерва{/b}. Или как пули.{/cps}")
@@ -2482,6 +2618,7 @@ label war_ending:
 return
 
 label hunger_ending:
+    scene bg hungerend with fade
     $ ch_news.say ("{cps=*2}Беспрецедентный случай: с полок магазинов пропала вся еда.{/cps}")
     $ ch_news.say ("{cps=*2}Пользователи сети делятся видео- и фотоматериалами повесившихся в их холодильниках мышей.{/cps}")
     $ ch_news.say ("{cps=*2}Как сообщают очевидцы, ещё вчера всё было нормально: «Сожрать всё было некому». Инцидент спровоцировал семейные ссоры и панику среди одинокого населения.{/cps}")
@@ -2511,6 +2648,7 @@ label hunger_ending:
 return
 
 label plaguewar_ending:
+    scene bg warplagueend with fade
     $ ch_news.say ("{cps=*2}Вопрос централизованности государств ещё никогда не стоял так остро!{/cps}")
     $ ch_news.say ("{cps=*2}Загадочный едкий, смертельный газ неизвестного происхождения и состава двигается с периферии каждого государства к его центру.{/cps}")
     $ ch_news.say ("{cps=*2}Жители Ватикана сообщают: в конечном счёте газ стремится принять форму окружности и окольцевать главную площадь ближайшего города.{/cps}")
@@ -2540,6 +2678,7 @@ label plaguewar_ending:
 return
 
 label plaguehunger_ending:
+    scene bg plaguehunger with fade
     $ ch_news.say ("{cps=*2}...{/cps}")
     $ ch_news.say ("{cps=*2}Эм! :){/cps}")
     $ ch_news.say ("{cps=*2}Я не успела придумать, какими бы эвфемизмами описать происходящее в своей подводке.{/cps}")
@@ -2572,6 +2711,7 @@ label plaguehunger_ending:
 return
 
 label hungerwar_ending:
+    scene bg warhunger with fade
     $ ch_news.say ("{cps=*2}Вспышка аномально жестокого человеческого поведения зафиксирована во всех 193 признанных и прочих непризнанных странах мира.{/cps}")
     $ ch_news.say ("{cps=*2}Люди… Кхм. Люди набрасываются друг на друга с намерением совершить акт каннибализма.{/cps}")
     $ ch_news.say ("{cps=*2}Посетители кафе массово отказываются от своих блюд, ссылаясь на их отвратительный вкус. Участились случаи нападений на официантов.{/cps}")
@@ -2611,6 +2751,7 @@ label hungerwar_ending:
 return
 
 label harem_ending:
+    scene bg allend with fade
     $ ch_news.say ("{cps=*2}К главным новостям: мир в огне!{/cps}")
     $ ch_news.say ("{cps=*2}Очевидцы сообщают…{/cps}")
     $ ch_news.say ("{cps=*2}Да какие ещё очевидцы? Мы {b}все{/b} тут очевидцы и пострадавшие. Вы сами не видите разве, {b}что{/b} за окном творится?{/cps}")
@@ -2618,7 +2759,8 @@ label harem_ending:
     $ ch_news.say ("{cps=*2}Нажаты все красные кнопки. С неба летят, кажется, бомбы, похожие на злых птичек и орехи…{/cps}")
     $ ch_news.say ("{cps=*2}Продовольственные запасы каждого государства будто бы «испарились» за одну ночь. За последние несколько часов участились вплоть до бытовой обыденности акты каннибализма.{/cps}")
     $ ch_news.say ("{cps=*2}Люди, буднично решившие проверить свои соцсети утром, массово жалуются на плохое самочувствие.{/cps}")
-    $ ch_news.say ("{cps=*2}ВОЗ выдвигает гипотезу о совершенно новом вирусе, основным симптомом которого является резкое повышение температуры всех внутренних органов до 322 градусов по Цельсию — смерть наступает мгновенно.{/cps}")
+    $ ch_news.say ("{cps=*2}ВОЗ выдвигает гипотезу о совершенно новом вирусе, основным симптомом которого является...{/cps}")
+    $ ch_news.say ("{cps=*2}Резкое повышение температуры всех внутренних органов до 322 градусов по Цельсию — смерть наступает мгновенно.{/cps}")
     $ ch_news.say ("{cps=*2}Отдельные наблюдатели сообщают о выделении зелёной жидкости изо рта в сопровождении с аномально быстрым ростом зубов с их последующим заострением.{/cps}")
     $ ch_news.say ("{cps=*2}Выжившие иронизируют, дав неизвестной болезни говорящее название «Бубубу-матча-{nw}».{/cps}")
     $ ch_news.say ("{cps=*3}Я это читать не буду. Хватит с меня.{/cps}")
@@ -2659,6 +2801,7 @@ label harem_ending:
 return
 
 label bad_ending:
+    scene bg badend with fade
     $ ch_god.say("{b}Позорище.{/b}")
 
     $ ch_narrator.say("{i}Он точно смотрит сейчас на экран со смертью. Или, если позволите, {shader=wave:u__amplitude=5.0:u__frequency=2.0:u__wavelength=20.0}со Смертью{/shader}.{/i}")
