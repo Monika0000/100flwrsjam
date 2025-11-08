@@ -245,7 +245,7 @@ class NarratorNvl:
         """Показать текст от лица рассказчика в NVL-режиме"""
         if auto_wait:
             text = add_auto_waits(text)
-        renpy.store.active_voice_path = "voice/narrator.wav"
+        renpy.store.active_voice_path = "voice/deathnarrator.wav"
         renpy.store.active_voice_interval_multiplier = self.active_voice_interval_multiplier
         renpy.store.nvl_text = text
         renpy.exports.call_in_new_context("nvl_text_label")

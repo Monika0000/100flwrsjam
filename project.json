@@ -3,7 +3,8 @@
   "packages": [
     "pc",
     "linux",
-    "win"
+    "win",
+    "mac"
   ],
   "add_from": true,
   "force_recompile": true,

@@ -4,9 +4,19 @@
 ## раскомментировать. Строки, начинающиеся с одной '#' — комментированный код,
 ## который вы можете раскомментировать, если посчитаете это нужным.
 
+init python:
+    config.mouse = {
+        "default": [
+            ("gui/cursor.png", 0, 0),  # только картинка и «горячая точка»
+        ],
+    }
+
 default persistent.set_volumes = False
 
 define config.default_textshader = "typewriter"
+
+init python:
+    style.default.outlines = [(3, "#000000ff", 0, 0)]  
 
 label splashscreen:
     if not persistent.set_volumes:
@@ -22,8 +32,7 @@ label splashscreen:
 ##
 ## Символы "_()", окружающие название, отмечают его как пригодное для перевода.
 
-define config.name = _("100 Flowers Jam")
-
+define config.name = _("У Смерти много л{s}юбовн{/s}иц!")
 
 ## Определяет, показывать ли заголовок, данный выше, на экране главного меню.
 ## Установите на False, чтобы спрятать заголовок.
@@ -33,13 +42,35 @@ define gui.show_name = True
 
 ## Версия игры.
 
-define config.version = "1.0"
+# define config.version = "1.0"
 
 
 ## Текст, помещённый в экран "Об игре". Поместите текст между тройными
 ## скобками. Для отделения абзацев оставляйте между ними пустую строку.
 
 define gui.about = _p("""
+
+Звуки:
+
+https://freesound.org/people/DiArchangeli/sounds/108695/ — Офис
+
+https://freesound.org/people/Fission9/sounds/521590/ — Шаги
+
+https://freesound.org/people/theplax/sounds/593253/ — Дверь
+
+https://freesound.org/people/passAirmangrace/sounds/340906/ — Удар
+
+https://freesound.org/people/lth_stp/sounds/120489/ — Стук в дверь
+
+https://freesound.org/people/arnaud%20coutancier/sounds/275090/ — Поворот ключа в двери
+
+https://freesound.org/people/bsumusictech/sounds/62464/ — Эмбиент у мусорки
+
+https://freesound.org/people/Agonda/sounds/210589/ — Столовая
+
+https://freesound.org/people/Artninja/sounds/752078/ — Удар наковальней
+
+https://freesound.org/people/urbaneguerilla/sounds/161443/ — Часы
 """)
 
 

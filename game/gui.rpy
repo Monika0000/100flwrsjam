@@ -59,13 +59,13 @@ define gui.interface_text_color = '#ffffff'
 ## Шрифты и их размеры #########################################################
 
 ## Шрифт, используемый внутриигровым текстом.
-define gui.text_font = "DejaVuSans.ttf"
+define gui.text_font = "font/Pangolin.ttf"
 
 ## Шрифт, используемый именами персонажей.
-define gui.name_text_font = "DejaVuSans.ttf"
+define gui.name_text_font = "font/Pangolin.ttf"
 
 ## Шрифт, используемый текстом вне игры.
-define gui.interface_text_font = "DejaVuSans.ttf"
+define gui.interface_text_font = "font/Pangolin.ttf"
 
 ## Размер нормального текста диалога.
 define gui.text_size = 33
@@ -91,6 +91,8 @@ define gui.title_text_size = 75
 ## Изображения, используемые в главном и игровом меню.
 define gui.main_menu_background = "gui/main_menu.png"
 define gui.game_menu_background = "gui/game_menu.png"
+
+
 
 
 ## Диалог ######################################################################
@@ -450,6 +452,7 @@ init python:
         gui.name_xpos = 120
         gui.dialogue_xpos = 135
         gui.dialogue_width = 1650
+
 
         ## Изменяет размеры и интервалы различных объектов.
         gui.slider_size = 54

@@ -8,7 +8,17 @@ default var_war_score = 0 # очки Войны
 default var_plague_score = 0 # очки Чумы
 
 label label_prologue:
+    
     play music "music/god.ogg" loop fadein 1.5 
+    #$ ch_p.set_state("normal", transition=Dissolve(0.15))
+    #$ ch_w.say ("{b}{size=+15}ЭТО ВСЁ?{/b}")
+    #$ ch_p.set_state("hidden", transition=Dissolve(0.15))
+    #$ ch_w.set_state("normal", transition=Dissolve(0.15))
+    #$ ch_w.say ("{b}{size=+15}ЭТО ВСЁ?{/b}")
+    #$ ch_w.set_state("hidden", transition=Dissolve(0.15))
+    #$ ch_h.set_state("normal", transition=Dissolve(0.15))
+    #$ ch_w.say ("{b}{size=+15}ЭТО ВСЁ?{/b}")
+    #$ ch_h.set_state("hidden", transition=Dissolve(0.15))
     scene bg cgall with fade
     $ nvl_narrator.say("{b}Откровение ап. Иоанна Богослова (Апокалипсис) 6:17: ибо пришел великий день гнева Его, и кто может устоять?{/b}")
     $ nvl_narrator.say("Когда Агнец снял первые четыре печати с Книги Божьего промысла, на землю явились грозные всадники.")
@@ -239,11 +249,11 @@ label label_prologue:
     $ ch_narrator.say("{i}Осталось только вспомнить, как вообще общаться с противоположным полом…{/i}")
     $ ch_narrator.say("{i}{b}Ей-богу{/b}, театр одного актёра начинается.{/i}")
     $ ch_narrator.say("{i}Ну и чего, где первый акт пьесы пройдёт?{/i}")
-
+    
     return
     
 label start:
-    call label_prologue
+    call label_prologue from _call_label_prologue
     
     label main_choice:
         scene bg office
@@ -257,24 +267,24 @@ label start:
         "В столовую, а то мне без сахарной бомбы тяжело думается." if not var_canteen_visited:
             $ var_canteen_visited = True
             $ renpy.block_rollback()
-            call label_canteen
+            call label_canteen from _call_label_canteen
 
         ################################ Чума #######################################
         "Лучше к курилке у мусорки сходить сначала, после такого без сигаретки тяжко…" if not var_landfill_visited:
             $ var_landfill_visited = True
             $ renpy.block_rollback()
-            call label_landfill
+            call label_landfill from _call_label_landfill
           
         ################################ Война ######################################
         "Cразу к офисам, дай Бог, наткнусь на кого деятельного." if not var_offices_visited:
             $ var_offices_visited = True
             $ renpy.block_rollback()
-            call label_offices
+            call label_offices from _call_label_offices
     
     if not var_canteen_visited or not var_landfill_visited or not var_offices_visited:
         jump main_choice
         
-    return
+return
 
 ####################################################################################################################################################################################
 ####################################################################################################################################################################################
@@ -285,11 +295,11 @@ label start:
 
 label label_landfill:
     $ var_roots += 1
+    scene corridor with fade
     stop music fadeout 0.5
     stop sound fadeout 0.5
     play sound "music/office.ogg" loop fadein 1.5 
     play music "music/main.ogg" loop fadein 1.5
-
     $ ch_narrator.say ("{i}Мудрое решение. Без никотинчика я обратно в себя не приду.{/i}")
     $ ch_narrator.say ("{i}Задумавшись на мгновение, прохлопываю свои карманы на случай, если меня Высшие силы решили наказать за дурную привычку.{/i}")
     $ ch_narrator.say ("{i}Но нет. {b}Бог{/b} мне этого {b}не дал{/b}  — {b}Бог{/b} ничего и {b}не взял{/b} .{/i}")
@@ -358,6 +368,7 @@ label label_landfill:
 
     scene dumpster with fade
     stop sound fadeout 0.5
+    play sound "sfx/Dumpster.ogg" loop fadein 1.5 
 
     $ ch_narrator.say ("{i}Ах, как здорово, когда вместо того, чтобы организовать приличную комнату для всех никотинозависимых, начальство забивает на это дело болт.{/i}")
     $ ch_narrator.say ("{i}Вот это безразличие руководства всегда порождает самодеятельность.{/i}")
@@ -374,16 +385,16 @@ label label_landfill:
     $ ch_narrator.say ("{i}Это типа как сироте угрожать, что ты его родителей убьёшь.{/i}")
     $ ch_narrator.say ("{i}...Хотя с таким подходом вообще ни о каких детях думать не приходится.{/i}")
 
-    $ ch_oth.say ("лол.")
+    $ ch_p.say ("лол.")
     $ ch_narrator.say ("{i}Да, голос извне, правда забавная оказия, так сказать.{/i}")
     $ ch_narrator.say ("{i}Стоп.{/i}")
-    $ ch_oth.say ("чё, реально чё ли импотенция? чел. чик-чик — и нет…")
+    $ ch_p.say ("чё, реально чё ли импотенция? чел. чик-чик — и нет…")
 
     $ ch_narrator.say ("{i}Моргаю своими навечно лишенными век глазами, взгляд соскакивает с обнадёживающей надписи на то, что до этого сливалось с фоном.{/i}")
     $ ch_narrator.say ("{i}Чума.{/i}")
 
     stop music fadeout 0.5
-    play sound "music/plague.ogg" loop fadein 1.5
+    play music "music/plague.ogg" loop fadein 1.5
     $ ch_p.set_state("normal", transition=Dissolve(0.15)) 
     $ ch_p.say ("йоу.")
     $ ch_p.say ("чё как, челикс? чёт давно тебя не замечала тут. и вообсче где угодно на рабочем месчте.")
@@ -397,7 +408,9 @@ label label_landfill:
 
     $ ch_narrator.say ("{i}Ну, я как бы не из тех, кто умеет напрямую отказывать.{/i}")
     $ ch_narrator.say ("{i}Достаю из заднего кармана зажигалку, выжидаю, пока Чума сообразит из бездонности её карманов папироску.{/i}")
+    play sound "sfx/Lighter.ogg"
     $ ch_narrator.say ("{i}{cps=*3}Кл-л-л{/cps}{cps=*0.5}ац!{/cps}{/i}")
+    play sound "sfx/Dumpster.ogg" loop fadein 1.5
     $ ch_narrator.say ("{i}Она делает первую затяжку и молчит. Чума смотрит в мою сторону, но я точно знаю, что на меня она сейчас не глядит.{/i}")
     $ ch_narrator.say ("{i}Чума в целом такой человек… Сам себе на уме.{/i}")
     $ ch_narrator.say ("{i}Каждый раз, как мы с ней болтаем, я не перестаю себя ощущать каким-то болванчиком.{/i}")
@@ -481,7 +494,7 @@ label label_landfill:
             $ ch_narrator.say ("{i}Пока я выпускаю дым  — она впивается губами в сигарету.{/i}")
             $ ch_narrator.say ("{i}А когда я решаюсь сделать ещё одну нервную затяжку, она{/i}")
             
-            $ ch_p.set_state("happysig", transition=Dissolve(0.15))
+            $ ch_p.set_state("happy sig", transition=Dissolve(0.15))
             $ ch_death.say ("Э-{w}{shader=wave:u__amplitude=2.0:u__frequency=6.0:u__wavelength=2.0}эй!{/shader}")
 
             $ ch_narrator.say ("{i}Чума выдыхает мне прямо в лицо, не забыв напоследок нагло рассмеяться.{/i}")
@@ -495,13 +508,13 @@ label label_landfill:
             $ ch_narrator.say ("{i}И, может быть, ей и хочется скрыть это за такой вот ужимкой, но я всё равно подмечаю…{/i}")
             $ ch_narrator.say ("{i}Губы. Она их начала кусать в нетерпении. Даже, пожалуй, в раздражении.{/i}")
             $ ch_narrator.say ("{i}Шок, на тишину тяжко придумывать всякие издёвки в ответ.{/i}")
-            $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
+            $ ch_p.set_state("normal sig", transition=Dissolve(0.15))
             $ ch_p.say ("ну так-с?")
                          
         "Предположим, что попала. Смеяться будешь? Давай, смейся.": # (2)
             $ var_plague_score += 1
             $ renpy.block_rollback()
-            $ ch_p.set_state("serioussig", transition=Dissolve(0.15))
+            $ ch_p.set_state("serious sig", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Чума крайне экспрессивно поднимает одну бровь.{/i}")
 
             $ ch_narrator.say ("{i}Я прям вижу, как она растерялась от такой честности с моей стороны.{/i}")
@@ -546,7 +559,7 @@ label label_landfill:
 
             $ ch_narrator.say ("{i}Воу. Вот это из меня бравада полезла на фоне её положительной реакции.{/i}")
 
-            $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
+            $ ch_p.set_state("normal sig", transition=Dissolve(0.15))
             $ ch_p.say ("тише-тише, у меня всё схвачено, чел. ты просто не шаришь. без спойлеров.")
             $ ch_p.say ("но, может быть, я могла бы согласиться на бартер.")
             $ ch_p.say ("если тебе под силу мне чего-нибудь предложить.")
@@ -554,7 +567,7 @@ label label_landfill:
             $ ch_narrator.say ("{i}Улыбается. Плотоядно, опасно, но совсем не ядовито.{/i}")
             $ ch_narrator.say ("{i}Или, эм, по крайней мере, {b}не совсем{/b} ядовито.{/i}")
     
-    $ ch_p.set_state("serioussig", transition=Dissolve(0.15))
+    $ ch_p.set_state("serious sig", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}Тут я набираю в лёгкие побольше воздуха.{/i}")
     $ ch_narrator.say ("{i}Тут же спешу перемешать прокисший от сожительства с мусором кислород намного более чистым табачным дымом.{/i}")
 
@@ -575,7 +588,7 @@ label label_landfill:
     $ ch_narrator.say ("{i}Завидев, как моё лицо уже вот-вот искривится, Чума посмеивается и разводит руками.{/i}")
 
     $ ch_p.say ("не отвечай, я всё равно продолжу.")
-    $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
+    $ ch_p.set_state("normal sig", transition=Dissolve(0.15))
     $ ch_p.say ("ну, я слушаю твой ситуэйчшн.")
 
     $ ch_narrator.say ("{i}И никакого «извини», к слову.{/i}")
@@ -603,7 +616,7 @@ label label_landfill:
     $ ch_death.say ("...")
     $ ch_p.set_state("cinema sig", transition=Dissolve(0.15))
     $ ch_p.say ("чилл.")
-    $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
+    $ ch_p.set_state("normal sig", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}Чума делает последнюю затяжку и кидает окурок на землю.{/i}")
     $ ch_p.set_state("normal", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}Мыс её крокса по-садистски медленно дербанит бычок.{/i}")
@@ -794,9 +807,9 @@ label label_landfill:
 
     $ ch_p.set_state("normal", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}Она таки решает закончить свою пытку и заметно веселеет.{/i}")
-    $ ch_p.set_state("sadsig", transition=Dissolve(0.15))    
+    $ ch_p.set_state("sad sig", transition=Dissolve(0.15))    
     $ ch_narrator.say ("{i}Тянется ко второй сигарете, я между делом бросаю свой окурок в положенное место — в дырку на канализационном люке — и снова делюсь с ней огоньком.{/i}")
-    $ ch_p.set_state("sadsig", transition=Dissolve(0.15))
+    $ ch_p.set_state("sad sig", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}Хоть где-то он у нас не умер. В ТикТоке он уже давно подох.{/i}")
     $ ch_narrator.say ("{i}Очевидно, что по моей вине.{/i}")
 
@@ -808,7 +821,7 @@ label label_landfill:
 
     $ ch_p.say ("хотя… чёй-то я тебе буду про всех расчехляться. про кого тебе интересно?")
     $ ch_p.say ("чесслово, без кинкшейминга.")
-    $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
+    $ ch_p.set_state("normal sig", transition=Dissolve(0.15))
     $ ch_narrator.say ("{i}Рука Чумы, свободная от подработки мундштуком, прячется за спину.{/i}")
     $ ch_narrator.say ("{i}Догадаться, что за её телом прямо сейчас нивелируется вышеупомянутое «честное слово», несложно.{/i}")
     $ ch_narrator.say ("{i}Но к чему подмечать это вслух? Эффекта всё равно не даст.{/i}")
@@ -828,7 +841,7 @@ label label_landfill:
             $ ch_p.say ("чат, верим?")
 
             $ ch_narrator.say ("{i}Давайте вы будете верить.{/i}")
-            $ ch_p.set_state("serioussig", transition=Dissolve(0.15))
+            $ ch_p.set_state("serious sig", transition=Dissolve(0.15))
             $ ch_p.say ("лан, ну, если ты совершенно-точно-не-предпочитаешь-больших-злых-женсчин, то уже должен знать, что тебе просто надо…")
             $ ch_p.say ("поменьше болтать.")
             $ ch_p.say ("как ты понимаешь, мы по этой причине немножечко с войнушкой не ладим.")
@@ -836,7 +849,7 @@ label label_landfill:
             $ ch_p.say ("тип, меньше твоей этой эмпатии потаённой  — и всё будет чики-пики, чел.")
             $ ch_p.say ("на войне, конечно, все средства хороши. но только не искренность.")
             $ ch_p.say ("печально звучит, но чё поделать.")
-            $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
+            $ ch_p.set_state("normal sig", transition=Dissolve(0.15))
             $ ch_p.say ("мне, кстати, это не всралось, потому что это просто утттттомительно.")
             $ ch_p.say ("ну эт на случай.")
                          
@@ -851,11 +864,11 @@ label label_landfill:
             $ ch_narrator.say ("{i}{shader=wave:u__amplitude=5.0:u__frequency=2.0:u__wavelength=20.0}Чундерешно{/shader}?{/i}")
 
             $ ch_death.say ("Может, мне просто нравится, когда со мной нормально общаются?")
-            $ ch_p.set_state("happysig", transition=Dissolve(0.15))
+            $ ch_p.set_state("happy sig", transition=Dissolve(0.15))
             $ ch_p.say ("лол. чат, мы верим?")
 
             $ ch_narrator.say ("{i}Давайте вы будете верить.{/i}")
-            $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
+            $ ch_p.set_state("normal sig", transition=Dissolve(0.15))
             $ ch_p.say ("как бы то ни было, чел. это очень лёгкая темка, с такой-то добрячкой закентиться.")
             $ ch_p.say ("просто подумай башкой, с кем ты болтаешь.")
             $ ch_p.say ("и что может задеть рпп-шную чучундру.")
@@ -881,11 +894,11 @@ label label_landfill:
             $ ch_death.say ("{i}Да нет, мне просто… Не так и нужно.{/i}")
 
             $ ch_p.say ("вы посмотрите, он реально не казуалыч. типа.")
-            $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
+            $ ch_p.set_state("normal sig", transition=Dissolve(0.15))
             $ ch_p.say ("или кто-то уже всех обошёл и счастлив, а?")
 
             if var_roots == 3:
-                $ ch_p.set_state("happysig", transition=Dissolve(0.15))
+                $ ch_p.set_state("happy sig", transition=Dissolve(0.15))
                 $ ch_narrator.say ("{i}Кому-то пора перестать ломать четвёртую стену, пока шутка себя не изжила.{/i}")
 
                 $ ch_p.say ("ага, и не говори.")
@@ -900,13 +913,13 @@ label label_landfill:
                 $ ch_p.say ("хз.")
                 $ ch_p.set_state("cinema sig", transition=Dissolve(0.15))
                 $ ch_p.say ("мне-то чё?")
-                $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
+                $ ch_p.set_state("normal sig", transition=Dissolve(0.15))
                 $ ch_p.say ("если на тебе уже венерический букет, меня это всё равно не напугает.")
  
     $ ch_narrator.say ("{i}Окей. Эм, что делают после подобного? Благодарят?{/i}")
 
     $ ch_death.say ("{i}Э-э-э, спасибо?{/i}")
-    $ ch_p.set_state("happysig", transition=Dissolve(0.15))
+    $ ch_p.set_state("happy sig", transition=Dissolve(0.15))
     $ ch_p.say ("да не за что, лол.")
     $ ch_p.say ("а чё, про меня тебе неинтересно узнать?")
 
@@ -917,7 +930,7 @@ label label_landfill:
     $ ch_death.say ("{i}И чего тогда?{/i}")
 
     $ ch_narrator.say ("{i}Тут Чума криво скалится.{/i}")
-    $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
+    $ ch_p.set_state("normal sig", transition=Dissolve(0.15))
     $ ch_p.say ("а давай, угадай.")
     $ ch_p.say ("посмотрим, как ты чумовые механики выучил.")
     $ ch_p.say ("если совсем уж меня порадуешь, то, так и быть, замучу бартер с твоей отчаянной душоночкой.")
@@ -956,7 +969,7 @@ label label_landfill:
 
             $ ch_narrator.say ("{i}Чума давит ладонью на мою грудную клетку, из-за чего мне приходится судорожно вдохнуть никотин.{/i}")
             $ ch_narrator.say ("{i}Видимо, только это ей и нужно было.{/i}")
-            $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
+            $ ch_p.set_state("normal sig", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Потому что сразу же после она щелкает пальцами у моего носа и возвращает своё погорелое имущество.{/i}")
             $ ch_narrator.say ("{i}Возвращает себе в рот.{/i}")
             $ ch_narrator.say ("{i}Стоять, это же типа…{/i}")
@@ -969,14 +982,14 @@ label label_landfill:
                 "УНО РЕВЁРС КАРД?":
                     $ ch_p.say ("типа того.")
             
-            $ ch_p.set_state("happysig", transition=Dissolve(0.15))
+            $ ch_p.set_state("happy sig", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Чума мне подмигивает. Без контекста это предложение звучало бы пугающе.{/i}")
             $ ch_narrator.say ("{i}С контекстом, на самом деле, — тоже.{/i}")
 
             $ ch_p.say ("знаешь, где место мужчины, кстати?")
 
             $ ch_death.say ("{i}Ну у тебя побольше информации на этот счёт, я так понимаю.{/i}")
-            $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
+            $ ch_p.set_state("normal sig", transition=Dissolve(0.15))
             $ ch_p.say ("о, знаешь, значится.")
             $ ch_p.say ("тогда до вечерочка.")
 
@@ -989,7 +1002,7 @@ label label_landfill:
                 $ ch_p.say ("так что: за работушку.")
                 $ ch_p.say ("чаооо.")
 
-            $ ch_p.set_state("happysig", transition=Dissolve(0.15))
+            $ ch_p.set_state("happy sig", transition=Dissolve(0.15))
             $ ch_p.set_state("hidden", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Она поразительно беззлобно посмеивается напоследок и, так и не прекращая сосать табак, уходит по делам. Подозреваю, что не только своим, но и моим.{/i}")
             
@@ -1019,12 +1032,12 @@ label label_landfill:
                          
         "{i}Зачем-то продолжить свои попытки пробиться через её броню и начать умолять о помощи.{i}": # (2)
             $ renpy.block_rollback()
-            $ ch_p.set_state("sadsig", transition=Dissolve(0.15))
+            $ ch_p.set_state("sad sig", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}Нет, а чего я ожидал? Это была ошибка.{/i}")
             $ ch_narrator.say ("{i}У Чумы перестаёт хватать фантазии на то, как можно на меня грозно глянуть.{/i}")
             $ ch_narrator.say ("{i}У сценаристки, пожалуй, тоже перестаёт хватать эмоционального и временного ресурса на подобное.{/i}")
             $ ch_narrator.say ("{i}Поэтому Чуме остаётся только закатить глаза. Крайне агрессивно.{/i}")
-            $ ch_p.set_state("serioussig", transition=Dissolve(0.15))
+            $ ch_p.set_state("serious sig", transition=Dissolve(0.15))
             $ ch_p.say ("ты закончил?")
 
             $ ch_death.say ("Нет, я, эм, я бы хотел попросить—")
@@ -1050,17 +1063,17 @@ label label_landfill:
                     "В столовую, а то мне без сахарной бомбы тяжело думается." if not var_canteen_visited:
                         $ var_canteen_visited = True
                         $ renpy.block_rollback()
-                        call label_canteen
+                        call label_canteen from _call_label_canteen_1
                     ################################ Война ######################################
                     "Cразу к офисам, дай Бог, наткнусь на кого деятельного." if not var_offices_visited:
                         $ var_offices_visited = True
                         $ renpy.block_rollback()
-                        call label_offices
+                        call label_offices from _call_label_offices_1
 
         "Нет, всё-таки надо было тогда развернуться и пойти… {i}Всё-таки развернуться и пойти. Хотя бы сейчас.{/i}": # (3)
             $ var_plague_score += 1
             $ renpy.block_rollback()
-            $ ch_p.set_state("serioussig", transition=Dissolve(0.15))
+            $ ch_p.set_state("serious sig", transition=Dissolve(0.15))
             $ ch_narrator.say ("{i}В этот раз я уже без притворств собираюсь уходить.{/i}")
             $ ch_narrator.say ("{i}Я думаю, после всего произошедшего, у меня есть право. А у неё есть право, ну, погоняться за мной.{/i}")
             $ ch_narrator.say ("{i}Если ей так угодно. При условии, что это её так уж забавляет.{/i}")
@@ -1073,7 +1086,7 @@ label label_landfill:
 
                 $ ch_p.say ("ладно, сынок. ты победил.")
                 $ ch_p.say ("это не очень фанни, я тебе так, конечно, скажу.")
-                $ ch_p.set_state("happysig", transition=Dissolve(0.15))
+                $ ch_p.set_state("happy sig", transition=Dissolve(0.15))
                 $ ch_p.say ("но на массовый геноцид с моей стороны потянет.")
 
                 $ ch_narrator.say ("{i}Чума мне подмигивает. Без контекста это предложение звучало бы пугающе.{/i}")
@@ -1082,7 +1095,7 @@ label label_landfill:
                 $ ch_p.say ("знаешь, где место мужчины, кстати?")
 
                 $ ch_death.say ("{i}Ну у тебя побольше информации на этот счёт, я так понимаю.{/i}")
-                $ ch_p.set_state("normalsig", transition=Dissolve(0.15))
+                $ ch_p.set_state("normal sig", transition=Dissolve(0.15))
                 $ ch_p.say ("о, знаешь, значится.")
                 $ ch_p.say ("тогда до вечерочка.")
                 $ ch_p.say ("замечательно тебе провести остаток дня.")
@@ -1091,7 +1104,7 @@ label label_landfill:
                 $ ch_narrator.say ("{i}Она поразительно беззлобно посмеивается напоследок и, так и не прекращая сосать табак, уходит по делам. Подозреваю, что не только своим, но и моим.{/i}")
 
             if var_plague_score < 5:
-                $ ch_p.set_state("sadsig", transition=Dissolve(0.15))  
+                $ ch_p.set_state("sad sig", transition=Dissolve(0.15))  
                 $ ch_narrator.say ("{i}Она.. просто стоит на месте.{/i}")
                 $ ch_narrator.say ("{i}Как будто ей без разницы.{/i}")
                 $ ch_narrator.say ("{i}Мне аж захотелось как-то погромче объявить о том, что я отчаливаю.{/i}")
@@ -1117,14 +1130,14 @@ label label_landfill:
                 "В столовую, а то мне без сахарной бомбы тяжело думается." if not var_canteen_visited:
                     $ var_canteen_visited = True
                     $ renpy.block_rollback()
-                    call label_canteen
+                    call label_canteen from _call_label_canteen_2
                 
                 ################################ Война ######################################
                 "Cразу к офисам, дай Бог, наткнусь на кого деятельного." if not var_offices_visited:
                     $ var_offices_visited = True
                     $ renpy.block_rollback()
-                    call label_offices
-
+                    call label_offices from _call_label_offices_2
+return
 
     
 
@@ -1178,7 +1191,7 @@ label label_offices:
     $ ch_narrator.say ("{i}А ещё если я продолжу философствовать хоть на одно предложение дольше, то это никогда не закончится.{/i}")
     $ ch_narrator.say ("{i}Мягко обругав себя за прокрастинацию даже в такой мелочи, я наконец прикладываюсь костяшками о ближайшую дверь.{/i}")
 
-    # звук стука в деревянную дверь
+    play sound "sfx/Knock.ogg"
 
     $ ch_narrator.say ("{i}Ага, тишина, ну ладно, я тогда пойду.{/i}")
     $ ch_narrator.say ("{i}Думаю я и стою неподвижно, затаив дыхание, — прислушиваюсь к тому, что же по ту сторону находится. Или кто.{/i}")
@@ -1202,6 +1215,7 @@ label label_offices:
     scene waroff with fade
     stop sound fadeout 0.5
     stop music fadeout 0.5
+    play sound "sfx/Clock.ogg" loop fadein 1.5
     $ ch_narrator.say ("{i}За секунду до того, как мозг успевает среагировать на повышенный уровень угрозы, я оказываюсь по ту сторону порога и вижу её.{/i}")
 
     play music "music/war.ogg" loop fadein 1.5
@@ -1250,6 +1264,7 @@ label label_offices:
     $ ch_narrator.say ("{i}Особенно учитывая то, что взгляд у неё сейчас на меня реально убийственный.{/i}")
 
     $ ch_death.say ("Всё же отвлекаю, да..?")
+    play sound "sfx/Table.ogg"
     scene bg waroff with vpunch
     $ ch_narrator.say ("{i}Не отрывая от меня глаз, она одним чётким движением опускает все бумаги сразу на стол.{/i}")
     $ ch_w.set_state("normal", transition=Dissolve(0.15))
@@ -1437,13 +1452,16 @@ label label_offices:
             $ ch_narrator.say ("{i}Наверное, стоило бы{nw}{/i}")
 
             $ ch_w.say ("{b}{size=+15}ЭТО КРОВЬ.{/b}")
-
+            
+            play sound "sfx/Table.ogg"
             scene bg waroff with vpunch
             $ ch_narrator.say ("{i}После этих слов она до того сильно топает ногой, что я, ну…{/i}")
             $ ch_narrator.say ("{i}Вылетаю из её кабинета сквозь весь коридор. В самое начало.{/i}")
+            play sound "sfx/Door.ogg"
             $ ch_w.set_state("hidden", transition=Dissolve(0.15))
 
             scene corridor with fade
+            stop sound
             $ ch_narrator.say ("{i}Ну. Видимо, не сегодня. Никогда.{/i}")
 
             if var_roots == 3:
@@ -1461,13 +1479,13 @@ label label_offices:
                 "В столовую, а то мне без сахарной бомбы тяжело думается." if not var_canteen_visited:
                     $ var_canteen_visited = True
                     $ renpy.block_rollback()
-                    call label_canteen
+                    call label_canteen from _call_label_canteen_3
 
                 ################################ Чума #######################################
                 "Лучше к курилке у мусорки сходить сначала, после такого без сигаретки тяжко…" if not var_landfill_visited:
                     $ var_landfill_visited = True
                     $ renpy.block_rollback()
-                    call label_landfill
+                    call label_landfill from _call_label_landfill_1
 
 
         "ДА ДЕЛАЮ Я ДЕЛА. Просто чуть-чуть неудачно. Я ещё оклемаюсь, с колен встану. Просто надо помочь. Ты. Я. Мне помочь?": # (2)
@@ -1504,6 +1522,7 @@ label label_offices:
         "{i}Ударить кулаком по первой попавшейся поверхности.{/i} Работаю. Нуждаюсь в подкреплении для лучшего результата.": # (3)
             $ renpy.block_rollback()
             $ var_war_score += 2
+            play sound "sfx/Table.ogg"
             scene bg waroff with vpunch
             $ ch_w.set_state("stare", transition=Dissolve(0.15))
 
@@ -1665,12 +1684,16 @@ label label_offices:
             $ ch_w.say ("{b}{size=+20}МЕРЗОСТЬ СОЕВАЯ. ЧТОБ НЕ ВИДЕЛА ТЕБЯ БОЛЬШЕ.{/b}")
 
             $ ch_narrator.say ("{i}Дверь за мной оглушительно громко захлопывается.{/i}")
+            play sound "sfx/Door.ogg"
             $ ch_w.set_state("hidden", transition=Dissolve(0.15))
+            stop sound
             scene bg corridor with vpunch
+            play sound "sfx/Lock.ogg"
             $ ch_narrator.say ("{i}В замке с той стороны гремит ключ.{/i}")
 
             $ ch_death.say ("{shader=wave:u__amplitude=2.0:u__frequency=9.0:u__wavelength=2.0}Ай!{/shader}")
 
+            play sound "sfx/MetalHit.ogg"
             $ ch_narrator.say ("{i}И вот сейчас, финальным аккордом военного марша, мне по башке прилетело что-то тяжелое.{/i}")
             $ ch_narrator.say ("{i}Бьюсь об заклад, это наковальня. Словно в дурацких мультиках.{/i}")
             $ ch_narrator.say ("{i}В глазах темнеет…{/i}")
@@ -1685,6 +1708,7 @@ label label_offices:
 
             $ ch_narrator.say ("{i}...{/i}")
             scene corridor with fade
+            stop sound fadeout 0.5
             $ ch_narrator.say ("{i}Я моргаю, уже вижу, как скоро кончится моё бренное существование.{/i}")
             $ ch_narrator.say ("{i}Но сила нарратива возвращает меня в сознание.{/i}")
             $ ch_narrator.say ("{i}Хоть какие-то есть плюсы быть главным героем.{/i}")
@@ -1694,13 +1718,13 @@ label label_offices:
                 "Обожраться в {u}столовой{/u}. Тактическое отступление." if not var_canteen_visited:
                     $ var_canteen_visited = True
                     $ renpy.block_rollback()
-                    call label_canteen
+                    call label_canteen from _call_label_canteen_4
 
                 ################################ Чума #######################################
                 "Пыхнуть в {u}курилке{/u}. Вернуть себе запал." if not var_landfill_visited:
                     $ var_landfill_visited = True
                     $ renpy.block_rollback()
-                    call label_landfill
+                    call label_landfill from _call_label_landfill_2
 
         "СЛУЖИТЬ ВОЙНЕ И МОЛЧАТЬ": # (2)
             $ renpy.block_rollback()
@@ -1737,19 +1761,37 @@ label label_offices:
                 $ ch_narrator.say ("{i}Оу.{/i}")
                 
                 $ ch_death.say ("МАРШ!")
-            
+
+                $ ch_w.set_state("hidden", transition=Dissolve(0.15))
+                scene corridor with fade
+                stop sound fadeout 0.5
+
                 $ ch_narrator.say ("{i}Несколько ошарашенный, но не то чтобы недовольный, я марширую к выходу из кабинета.{/i}")
                 $ ch_narrator.say ("{i}У меня могут быть галлюцинации от недостатка воздуха, но мне показалось, что Война напоследок чуточку улыбнулась.{/i}")
                 $ ch_narrator.say ("{i}Из минусов: улыбнулась властно.{/i}")
                 $ ch_narrator.say ("{i}А точно ли это минус…?{/i}")
                 $ ch_narrator.say ("{i}Время на подумать есть.{/i}")
                 $ ch_narrator.say ("{i}А если до вечера не придумается, то обязательно дойдёт во время, кхм, боевого крещения.{/i}")
-                jump main_choice
+                $ ch_narrator.say ("{i}Ну и как бы… Куда мне теперь идти реализовывать свой, кхм, военный талант?{/i}")
+
+                menu:
+                    ################################ Голод ######################################
+                    "Обожраться в {u}столовой{/u}. Тактическое отступление." if not var_canteen_visited:
+                        $ var_canteen_visited = True
+                        $ renpy.block_rollback()
+                        call label_canteen from _call_label_canteen_5
+
+                    ################################ Чума #######################################
+                    "Пыхнуть в {u}курилке{/u}. Вернуть себе запал." if not var_landfill_visited:
+                        $ var_landfill_visited = True
+                        $ renpy.block_rollback()
+                        call label_landfill from _call_label_landfill_3
 
             if var_war_score < 5:
                 $ ch_narrator.say ("{i}Стройным шагом выхожу из кабинета.{/i}")
                 $ ch_w.set_state("hidden", transition=Dissolve(0.15))
                 scene corridor with fade
+                stop sound fadeout 0.5
                 $ ch_narrator.say ("{i}Ну, было неплохо.{/i}")
 
                 if var_roots == 3:
@@ -1770,13 +1812,13 @@ label label_offices:
                     "Обожраться в {u}столовой{/u}. Тактическое отступление." if not var_canteen_visited:
                         $ var_canteen_visited = True
                         $ renpy.block_rollback()
-                        call label_canteen
+                        call label_canteen from _call_label_canteen_6
 
                     ################################ Чума #######################################
                     "Пыхнуть в {u}курилке{/u}. Вернуть себе запал." if not var_landfill_visited:
                         $ var_landfill_visited = True
                         $ renpy.block_rollback()
-                        call label_landfill
+                        call label_landfill from _call_label_landfill_4
 
 
         "РАБОТАТЬ И… РАБОТАТЬ!": # (3)
@@ -1808,6 +1850,7 @@ label label_offices:
                 $ ch_narrator.say ("{i}Кажется, я выбрал это сам.{/i}")
                 $ ch_w.set_state("hidden", transition=Dissolve(0.15))
                 scene corridor with fade
+                stop sound fadeout 0.5
                 if var_roots == 3:
                     $ ch_narrator.say ("{i}Ну… Созвон, каким бы он там ни был, всё равно будет {b}дома{/b}.{/i}")
                     $ ch_narrator.say ("{i}Так что… Ну. Все дороги ведут в мой уединенный Рим.{/i}")
@@ -1817,6 +1860,7 @@ label label_offices:
                 $ ch_narrator.say ("{i}Стройным шагом выхожу из кабинета.{/i}")
                 $ ch_w.set_state("hidden", transition=Dissolve(0.15))
                 scene corridor with fade
+                stop sound fadeout 0.5
                 $ ch_narrator.say ("{i}Ну, было неплохо.{/i}")
                 
                 if var_roots == 3:
@@ -1826,7 +1870,8 @@ label label_offices:
                     jump ending
 
             $ ch_w.set_state("hidden", transition=Dissolve(0.15))
-            scene bg corridor with fade         
+            scene bg corridor with fade     
+            stop sound fadeout 0.5    
             $ ch_narrator.say ("{i}...{/i}")
             $ ch_narrator.say ("{i}Я вдоволь проморгался.{/i}")
             $ ch_narrator.say ("{i}Не идеально, конечно, получилось. Но… Не из вон рук отвратно, да?{i}")
@@ -1839,15 +1884,16 @@ label label_offices:
                 "Обожраться в {u}столовой{/u}. Тактическое отступление." if not var_canteen_visited:
                     $ var_canteen_visited = True
                     $ renpy.block_rollback()
-                    call label_canteen
+                    call label_canteen from _call_label_canteen_7
 
                 ################################ Чума #######################################
                 "Пыхнуть в {u}курилке{/u}. Вернуть себе запал." if not var_landfill_visited:
                     $ var_landfill_visited = True
                     $ renpy.block_rollback()
-                    call label_landfill
-
-
+                    call label_landfill from _call_label_landfill_5
+            return
+        
+    return
 return
 
 ####################################################################################################################################################################################
@@ -1860,6 +1906,10 @@ return
 label label_canteen:
     $ var_roots += 1
     scene corridor with fade
+    stop music fadeout 0.5
+    stop sound fadeout 0.5
+    play sound "music/office.ogg" loop fadein 1.5 
+    play music "music/main.ogg" loop fadein 1.5
     $ ch_narrator.say ("{i}Н-да, заедать свои проблемы — не лучшая привычка, конечно.{/i}")
     $ ch_narrator.say ("{i}Но я сейчас как бы на волоске от смерти.{/i}")
     $ ch_narrator.say ("{i}Так что думаю, мне простительно. Да и не просто так всех работников найма заманивают в офисы, кхм,{w} чаем и печеньками.{/i}")
@@ -1884,6 +1934,8 @@ label label_canteen:
     $ ch_narrator.say ("{i}Вот такой вот воодушевлённый я толкаю плечом дверь в обитель еды.{/i}")
 
     scene diner with fade
+    stop sound fadeout 0.5
+    play sound "sfx/Canteen.ogg" loop fadein 1.5 
 
     $ ch_narrator.say ("{i}Меня встречает столовая. Ожидаемо, без очередей.{/i}")
 
@@ -2248,7 +2300,7 @@ label label_canteen:
             $ ch_h.say ("{i}Каждый может стать такой, как я… Нужно ведь просто самую малость постараться.{/i}")
             $ ch_h.say ("{i}Быть может, просто под нужным руководством…{/i}")
 
-    $ ch_oth.say ("Ох, простите, ребятушки! Я привыкла, что тут только к обеду приходят, вот и ушла оливы собирать!")
+    $ ch_r.say ("Ох, простите, ребятушки! Я привыкла, что тут только к обеду приходят, вот и ушла оливы собирать!")
 
     $ ch_narrator.say ("{i}Нашу беседу прерывает знакомый нежный голос.{/i}")
     $ ch_narrator.say ("{i}Ревекка вернулась.{/i}")
@@ -2505,12 +2557,12 @@ label label_canteen:
         "Кружок «Кумарный Джин», временно расположенный в {u}курилке{/u}." if not var_landfill_visited:
             $ var_landfill_visited = True
             $ renpy.block_rollback()
-            call label_landfill
+            call label_landfill from _call_label_landfill_6
         ################################ Война ######################################
         "{s}Добровольно-{/s}принудительный труд в  {u}офисе{/u}. Да здравствует работа!" if not var_offices_visited:
             $ var_offices_visited = True
             $ renpy.block_rollback()
-            call label_offices
+            call label_offices from _call_label_offices_3
 return
 
 ####################################################################################################################################################################################
@@ -2522,7 +2574,11 @@ return
 
 label ending:
     $ renpy.block_rollback()
-    play music "music/god.ogg" loop fadein 1.5 
+    play music "music/god.ogg" loop fadein 1.5
+    play sound "sfx/news.ogg" 
+    if var_plague_score < 5 and var_war_score < 5 and var_hunger_score < 5:
+        jump bad_ending
+    
     scene bg cgall with fade
     $ ch_news.say ("{cps=*2}Экстренное включение!{/cps}")
     $ ch_news.say ("{cps=*2}Последний утренний репортаж в вашей жизни! Не проспите главное.{/cps}")
@@ -2542,16 +2598,12 @@ label ending:
         jump plaguehunger_ending
     if var_plague_score < 5 and var_war_score >= 5 and var_hunger_score >= 5:
         jump warhunger_ending
-    if var_plague_score >= 5 and var_war_score >= 5 and var_hunger_score < 5:
-        jump plaguewar_ending
     if var_plague_score >= 5 and var_war_score >= 5 and var_hunger_score >= 5:
         jump harem_ending
-    if var_plague_score < 5 and var_war_score < 5 and var_hunger_score < 5:
-        jump bad_ending
 
 label plague_ending:
     scene bg plagueend with fade
-    $ ch_news.say ("{cps=*2}Вспышка нового смертельного вируса, К0-В1[Д]ЛС_НГ+! Вирус распространяется с аномально высокой скоростью.{/cps}")
+    $ ch_news.say ("{cps=*2}Вспышка нового смертельного вируса, К0-В1ДЛС_НГ+! Вирус распространяется с аномально высокой скоростью.{/cps}")
     $ ch_news.say ("{cps=*2}По предварительным данным, очаг заражения — Китай.{/cps}")
     $ ch_news.say ("{cps=*2}{alpha=*0.5}И вправду, ДЛС на НГ+...{/alpha}{/cps}")
     $ ch_news.say ("{cps=*2}Тем не менее, это уже совсем не имеет значения! :) Как и все наши жизни! :) И {b}всё{/b} в наших жизнях!{/cps}") 
@@ -2581,6 +2633,8 @@ label plague_ending:
     $ nvl_narrator.say ("С другой стороны, без дела вы теперь тоже сидеть не будете…")
     $ nvl_narrator.say ("В общем!")
     $ nvl_narrator.say ("Чумовой вам жизни, господин Смерть. :)")
+    $ nvl_narrator.say ("{b}КОНЦОВКА 2/8{/b}")
+    $ renpy.full_restart(config.game_main_transition)
 return
 
 label war_ending:
@@ -2615,6 +2669,8 @@ label war_ending:
     $ nvl_narrator.say ("А затем работать, работать и ещё раз работать. До тех пор, пока не получится истребить даже тараканов. Задачка, как известно, со звёздочкой. Но мужик вы или не мужик?")
     $ nvl_narrator.say ("В общем! Как бы то ни было… Удачи.")
     $ nvl_narrator.say ("В любви как на войне, господин Смерть! :)")
+    $ nvl_narrator.say ("{b}КОНЦОВКА 3/8{/b}")
+    $ renpy.full_restart(config.game_main_transition)
 return
 
 label hunger_ending:
@@ -2645,6 +2701,8 @@ label hunger_ending:
     $ nvl_narrator.say ("Кстати, прямо сейчас по расписанию прощаться и идти отрабатывать калории за зубную пасту утром.")
     $ nvl_narrator.say ("В общем!")
     $ nvl_narrator.say ("Хлеб вам да соль, господин Смерть! :)")
+    $ nvl_narrator.say ("{b}КОНЦОВКА 4/8{/b}")
+    $ renpy.full_restart(config.game_main_transition)
 return
 
 label plaguewar_ending:
@@ -2675,6 +2733,8 @@ label plaguewar_ending:
     $ nvl_narrator.say ("Вам посчастливилось стать жертвой и эмоционального, и физического насилия. От женщин. Больших и замечательных.")
     $ nvl_narrator.say ("В общем!")
     $ nvl_narrator.say ("Как вы там уже говорили? Всё, что нас не убивает — закаляет, господин Смерть? :)")
+    $ nvl_narrator.say ("{b}КОНЦОВКА 5/8{/b}")
+    $ renpy.full_restart(config.game_main_transition)
 return
 
 label plaguehunger_ending:
@@ -2708,10 +2768,12 @@ label plaguehunger_ending:
     $ nvl_narrator.say ("Вам нужно лишь успевать следить за всем брейнротом (буквально) мира, не есть больше 10 ккал в сутки, при этом потребляя 100 грамм белка на один килограмм вашей костной массы, а параллельно не забывать жить {s}жизнь{/s} смерть.")
     $ nvl_narrator.say ("В общем!")
     $ nvl_narrator.say ("An apple a day keeps the doctor away, господин Смерть. :)")
+    $ nvl_narrator.say ("{b}КОНЦОВКА 6/8{/b}")
+    $ renpy.full_restart(config.game_main_transition)
 return
 
-label hungerwar_ending:
-    scene bg warhunger with fade
+label warhunger_ending:
+    scene bg warhungerend with fade
     $ ch_news.say ("{cps=*2}Вспышка аномально жестокого человеческого поведения зафиксирована во всех 193 признанных и прочих непризнанных странах мира.{/cps}")
     $ ch_news.say ("{cps=*2}Люди… Кхм. Люди набрасываются друг на друга с намерением совершить акт каннибализма.{/cps}")
     $ ch_news.say ("{cps=*2}Посетители кафе массово отказываются от своих блюд, ссылаясь на их отвратительный вкус. Участились случаи нападений на официантов.{/cps}")
@@ -2748,10 +2810,13 @@ label hungerwar_ending:
     $ nvl_narrator.say ("Ну а днём, когда нет АНЖУМАНИЙ, вы вполне мило смотрите документальные фильмы про Страхалинское правление вместе с Голодом и Войной с обеих сторон.")
     $ nvl_narrator.say ("В общем!")
     $ nvl_narrator.say ("Война войной, а обед (только) по расписанию, господин Смерть. :)")
+    $ nvl_narrator.say ("{b}КОНЦОВКА 7/8{/b}")
+    $ renpy.full_restart(config.game_main_transition)
 return
 
 label harem_ending:
     scene bg allend with fade
+    play sound "sfx/tun.ogg"
     $ ch_news.say ("{cps=*2}К главным новостям: мир в огне!{/cps}")
     $ ch_news.say ("{cps=*2}Очевидцы сообщают…{/cps}")
     $ ch_news.say ("{cps=*2}Да какие ещё очевидцы? Мы {b}все{/b} тут очевидцы и пострадавшие. Вы сами не видите разве, {b}что{/b} за окном творится?{/cps}")
@@ -2798,6 +2863,8 @@ label harem_ending:
     $ nvl_narrator.say ("У кого-кого, а у вас и впрямь {shader=wave:u__amplitude=5.0:u__frequency=2.0:u__wavelength=20.0}много лиц{/shader}. Хватит на всех.")
     $ nvl_narrator.say ("В общем!")
     $ nvl_narrator.say ("Совет да любовь [x3], господин Смерть. :)")
+    $ nvl_narrator.say ("{b}КОНЦОВКА 8/8{/b}")
+    $ renpy.full_restart(config.game_main_transition)
 return
 
 label bad_ending:
@@ -2838,4 +2905,6 @@ label bad_ending:
     $ nvl_narrator.say("Или всё правда так плохо…?")
     $ nvl_narrator.say("В общем!")
     $ nvl_narrator.say("Покойтесь без мира, господин Смерть. :)")
+    $ nvl_narrator.say ("{b}КОНЦОВКА 1/8{/b}")
+    $ renpy.full_restart(config.game_main_transition)
 return

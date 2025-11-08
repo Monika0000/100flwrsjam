@@ -4,7 +4,6 @@
 
 init offset = -1
 
-
 ################################################################################
 ## Стили
 ################################################################################
@@ -137,10 +136,11 @@ style window:
     yalign gui.textbox_yalign
     ysize gui.textbox_height
 
-    background Image("gui/textbox.png", xalign=0.5, yalign=1.0)
+    #background Image("gui/textbox.png", xalign=0.5, yalign=1.0)
 
 style namebox:
     xpos gui.name_xpos
+    xalign 0.5
     xanchor gui.name_xalign
     xsize gui.namebox_width
     ypos gui.name_ypos
@@ -294,8 +294,12 @@ screen navigation():
     vbox:
         style_prefix "navigation"
 
-        xpos gui.navigation_xpos
-        yalign 0.5
+        if renpy.get_screen("main_menu"):
+            xalign 0.5
+            yalign 0.95
+        else:
+            xalign 0.1
+            yalign 0.5
 
         spacing gui.navigation_spacing
 
@@ -304,7 +308,7 @@ screen navigation():
             textbutton _("Начать") action Start()
 
             #if config.developer:
-            textbutton _("Отладка") action Start('debug')
+            # textbutton _("Отладка") action Start('debug')
 
         else:
 
@@ -347,6 +351,7 @@ style navigation_button:
 
 style navigation_button_text:
     properties gui.text_properties("navigation_button")
+    xalign 0.5
 
 
 ## Экран главного меню #########################################################
@@ -443,14 +448,14 @@ style main_menu_frame:
     xsize 420
     yfill True
 
-    background "gui/overlay/main_menu.png"
+    #background "gui/overlay/main_menu.png"
 
 style main_menu_vbox:
-    xalign 1.0
-    xoffset -30
+    xalign 0.5
+    xoffset 30
     xmaximum 1200
-    yalign 1.0
-    yoffset -30
+    yalign 0.0
+    yoffset 80
 
 style main_menu_text:
     properties gui.text_properties("main_menu", accent=True)
@@ -542,6 +547,7 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
         key "game_menu" action ShowMenu("main_menu")
 
 
+
 style game_menu_outer_frame is empty
 style game_menu_navigation_frame is empty
 style game_menu_content_frame is empty
@@ -559,7 +565,7 @@ style game_menu_outer_frame:
     bottom_padding 45
     top_padding 180
 
-    background "gui/overlay/game_menu.png"
+    # background "gui/overlay/game_menu.png"
 
 style game_menu_navigation_frame:
     xsize 420
@@ -1214,7 +1220,7 @@ screen confirm(message, yes_action, no_action):
 
     style_prefix "confirm"
 
-    add "gui/overlay/confirm.png"
+    #add "gui/overlay/confirm.png"
 
     frame:
 
@@ -1432,7 +1438,7 @@ style nvl_window:
     xfill True
     yfill True
 
-    background "gui/nvl.png"
+    #background "gui/nvl.png"
     padding gui.nvl_borders.padding
 
 style nvl_entry:
@@ -1615,11 +1621,11 @@ style nvl_window:
 
 style main_menu_frame:
     variant "small"
-    background "gui/phone/overlay/main_menu.png"
+    #background "gui/phone/overlay/main_menu.png"
 
 style game_menu_outer_frame:
     variant "small"
-    background "gui/phone/overlay/game_menu.png"
+    # background "gui/phone/overlay/game_menu.png"
 
 style game_menu_navigation_frame:
     variant "small"
